@@ -1,0 +1,24 @@
+[Unit]
+Description=VogueAI Django Blog Service
+After=network.target
+Wants=network.target
+
+[Service]
+Type=notify
+User=www-data
+Group=www-data
+RuntimeDirectory=vogueai
+WorkingDirectory=/path/to/voguai/django_project
+Environment=PATH=/path/to/voguai/venv/bin
+Environment=DJANGO_SETTINGS_MODULE=vogueblog.settings
+EnvironmentFile=-/etc/vogueai/environment
+ExecStart=/path/to/voguai/venv/bin/gunicorn --config /path/to/voguai/deployment/gunicorn/django_gunicorn.py vogueblog.wsgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

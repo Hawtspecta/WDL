@@ -1,0 +1,1083 @@
+INFO 2026-05-06 12:36:20,625 autoreload 33976 18844 Watching for file changes with StatReloader
+INFO 2026-05-06 12:37:48,292 log 33976 17604 "GET /admin HTTP/1.1" 301 0
+INFO 2026-05-06 12:37:48,337 log 33976 17604 "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-05-06 12:37:48,596 log 33976 17604 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4082
+INFO 2026-05-06 12:37:48,876 log 33976 7516 "GET /static/admin/css/login.css HTTP/1.1" 200 951
+INFO 2026-05-06 12:37:48,884 log 33976 30088 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+INFO 2026-05-06 12:37:48,908 log 33976 23204 "GET /static/admin/css/responsive.css HTTP/1.1" 200 16273
+INFO 2026-05-06 12:37:48,914 log 33976 16436 "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 3538
+INFO 2026-05-06 12:37:48,917 log 33976 17604 "GET /static/admin/css/base.css HTTP/1.1" 200 23100
+INFO 2026-05-06 12:37:48,928 log 33976 17332 "GET /static/admin/js/theme.js HTTP/1.1" 200 1653
+INFO 2026-05-06 12:37:48,961 log 33976 17604 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+WARNING 2026-05-06 12:37:48,983 log 33976 17604 Not Found: /favicon.ico
+WARNING 2026-05-06 12:37:48,984 log 33976 17604 "GET /favicon.ico HTTP/1.1" 404 3153
+WARNING 2026-05-06 12:38:01,066 log 33976 12344 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-06 12:38:01,067 log 33976 12344 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-06 12:38:30,753 log 33976 12344 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-06 12:38:30,754 log 33976 12344 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-06 12:39:00,755 log 33976 12344 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-06 12:39:00,755 log 33976 12344 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-06 12:39:30,749 log 33976 12344 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-06 12:39:30,750 log 33976 12344 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-06 12:40:00,744 log 33976 12344 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-06 12:40:00,745 log 33976 12344 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-06 12:40:30,752 log 33976 12344 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-06 12:40:30,753 log 33976 12344 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+INFO 2026-05-06 13:42:53,907 log 33976 11044 "GET /blog HTTP/1.1" 301 0
+ERROR 2026-05-06 13:42:54,043 log 33976 11044 Internal Server Error: /blog/
+Traceback (most recent call last):
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 221, in _get_response
+    response = response.render()
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 160, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 66, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\defaulttags.py", line 332, in render
+    if match:
+       ^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 404, in __bool__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2002, in _fetch_all
+    self._prefetch_related_objects()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1369, in _prefetch_related_objects
+    prefetch_related_objects(self._result_cache, *self._prefetch_related_lookups)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2426, in prefetch_related_objects
+    raise AttributeError(
+    ...<7 lines>...
+    )
+AttributeError: Cannot find 'tags' on Post object, 'tags' is an invalid parameter to prefetch_related()
+ERROR 2026-05-06 13:42:54,052 log 33976 11044 "GET /blog/ HTTP/1.1" 500 175844
+INFO 2026-05-06 13:42:54,084 basehttp 33976 11044 - Broken pipe from ('127.0.0.1', 57860)
+INFO 2026-05-07 12:22:39,971 autoreload 23168 6316 Watching for file changes with StatReloader
+INFO 2026-05-07 12:22:47,954 autoreload 29104 29072 Watching for file changes with StatReloader
+WARNING 2026-05-07 12:24:37,918 log 23168 16564 Not Found: /reviews
+WARNING 2026-05-07 12:24:37,918 log 23168 20940 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:24:37,919 log 23168 16564 "GET /reviews HTTP/1.1" 404 3141
+WARNING 2026-05-07 12:24:37,920 log 23168 20940 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-07 12:25:00,649 log 23168 20940 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:25:00,650 log 23168 20940 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-07 12:25:07,649 log 23168 20940 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:25:07,654 log 23168 16564 Not Found: /reviews
+WARNING 2026-05-07 12:25:07,655 log 23168 20940 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-07 12:25:07,655 log 23168 16564 "GET /reviews HTTP/1.1" 404 3141
+WARNING 2026-05-07 12:25:30,646 log 23168 16564 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:25:30,647 log 23168 16564 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-07 12:25:37,656 log 23168 20940 Not Found: /reviews
+WARNING 2026-05-07 12:25:37,660 log 23168 16564 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:25:37,661 log 23168 20940 "GET /reviews HTTP/1.1" 404 3141
+WARNING 2026-05-07 12:25:37,662 log 23168 16564 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-07 12:26:00,658 log 23168 16564 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:26:00,659 log 23168 16564 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-07 12:26:06,764 log 23168 16564 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:26:06,765 log 23168 16564 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-07 12:26:06,779 log 23168 20940 Not Found: /reviews
+WARNING 2026-05-07 12:26:06,781 log 23168 20940 "GET /reviews HTTP/1.1" 404 3141
+WARNING 2026-05-07 12:26:30,658 log 23168 20940 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:26:30,659 log 23168 20940 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-07 12:26:37,657 log 23168 20940 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:26:37,664 log 23168 16564 Not Found: /reviews
+WARNING 2026-05-07 12:26:37,665 log 23168 20940 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-07 12:26:37,665 log 23168 16564 "GET /reviews HTTP/1.1" 404 3141
+WARNING 2026-05-07 12:27:00,657 log 23168 16564 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:27:00,659 log 23168 16564 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-07 12:27:07,657 log 23168 16564 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:27:07,664 log 23168 20940 Not Found: /reviews
+WARNING 2026-05-07 12:27:07,665 log 23168 20940 "GET /reviews HTTP/1.1" 404 3141
+WARNING 2026-05-07 12:27:07,665 log 23168 16564 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-07 12:27:30,650 log 23168 16564 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:27:30,651 log 23168 16564 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-07 12:27:37,657 log 23168 16564 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:27:37,662 log 23168 20940 Not Found: /reviews
+WARNING 2026-05-07 12:27:37,663 log 23168 20940 "GET /reviews HTTP/1.1" 404 3141
+WARNING 2026-05-07 12:27:37,663 log 23168 16564 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-07 12:28:00,655 log 23168 16564 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:28:00,656 log 23168 16564 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-07 12:28:07,659 log 23168 16564 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:28:07,665 log 23168 20940 Not Found: /reviews
+WARNING 2026-05-07 12:28:07,666 log 23168 16564 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-07 12:28:07,666 log 23168 20940 "GET /reviews HTTP/1.1" 404 3141
+INFO 2026-05-07 12:28:32,761 log 23168 28344 "GET /blog HTTP/1.1" 301 0
+ERROR 2026-05-07 12:28:33,112 log 23168 28344 Internal Server Error: /blog/
+Traceback (most recent call last):
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 221, in _get_response
+    response = response.render()
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 160, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 66, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\defaulttags.py", line 332, in render
+    if match:
+       ^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 404, in __bool__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2002, in _fetch_all
+    self._prefetch_related_objects()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1369, in _prefetch_related_objects
+    prefetch_related_objects(self._result_cache, *self._prefetch_related_lookups)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2426, in prefetch_related_objects
+    raise AttributeError(
+    ...<7 lines>...
+    )
+AttributeError: Cannot find 'tags' on Post object, 'tags' is an invalid parameter to prefetch_related()
+ERROR 2026-05-07 12:28:33,129 log 23168 28344 "GET /blog/ HTTP/1.1" 500 179270
+WARNING 2026-05-07 12:28:33,423 log 23168 28344 Not Found: /favicon.ico
+WARNING 2026-05-07 12:28:33,424 log 23168 28344 "GET /favicon.ico HTTP/1.1" 404 3153
+WARNING 2026-05-07 12:28:37,656 log 23168 20940 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:28:37,661 log 23168 16564 Not Found: /reviews
+WARNING 2026-05-07 12:28:37,662 log 23168 20940 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-07 12:28:37,663 log 23168 16564 "GET /reviews HTTP/1.1" 404 3141
+ERROR 2026-05-07 12:28:41,147 log 23168 28344 Internal Server Error: /blog/
+Traceback (most recent call last):
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 221, in _get_response
+    response = response.render()
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 160, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 66, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\defaulttags.py", line 332, in render
+    if match:
+       ^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 404, in __bool__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2002, in _fetch_all
+    self._prefetch_related_objects()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1369, in _prefetch_related_objects
+    prefetch_related_objects(self._result_cache, *self._prefetch_related_lookups)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2426, in prefetch_related_objects
+    raise AttributeError(
+    ...<7 lines>...
+    )
+AttributeError: Cannot find 'tags' on Post object, 'tags' is an invalid parameter to prefetch_related()
+ERROR 2026-05-07 12:28:41,154 log 23168 28344 "GET /blog/ HTTP/1.1" 500 179270
+ERROR 2026-05-07 12:28:47,013 log 23168 28344 Internal Server Error: /blog/
+Traceback (most recent call last):
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 221, in _get_response
+    response = response.render()
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 160, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 66, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\defaulttags.py", line 332, in render
+    if match:
+       ^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 404, in __bool__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2002, in _fetch_all
+    self._prefetch_related_objects()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1369, in _prefetch_related_objects
+    prefetch_related_objects(self._result_cache, *self._prefetch_related_lookups)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2426, in prefetch_related_objects
+    raise AttributeError(
+    ...<7 lines>...
+    )
+AttributeError: Cannot find 'tags' on Post object, 'tags' is an invalid parameter to prefetch_related()
+ERROR 2026-05-07 12:28:47,020 log 23168 28344 "GET /blog/ HTTP/1.1" 500 179270
+ERROR 2026-05-07 12:28:52,807 log 23168 28344 Internal Server Error: /blog/
+Traceback (most recent call last):
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 221, in _get_response
+    response = response.render()
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 160, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 66, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\defaulttags.py", line 332, in render
+    if match:
+       ^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 404, in __bool__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2002, in _fetch_all
+    self._prefetch_related_objects()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1369, in _prefetch_related_objects
+    prefetch_related_objects(self._result_cache, *self._prefetch_related_lookups)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2426, in prefetch_related_objects
+    raise AttributeError(
+    ...<7 lines>...
+    )
+AttributeError: Cannot find 'tags' on Post object, 'tags' is an invalid parameter to prefetch_related()
+ERROR 2026-05-07 12:28:52,813 log 23168 28344 "GET /blog/ HTTP/1.1" 500 179270
+WARNING 2026-05-07 12:29:01,650 log 23168 16564 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:29:01,651 log 23168 16564 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-07 12:29:07,660 log 23168 16564 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:29:07,667 log 23168 20940 Not Found: /reviews
+WARNING 2026-05-07 12:29:07,668 log 23168 16564 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-07 12:29:07,669 log 23168 20940 "GET /reviews HTTP/1.1" 404 3141
+ERROR 2026-05-07 12:29:32,580 log 23168 28344 Internal Server Error: /blog/
+Traceback (most recent call last):
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 221, in _get_response
+    response = response.render()
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 160, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 66, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\defaulttags.py", line 332, in render
+    if match:
+       ^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 404, in __bool__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2002, in _fetch_all
+    self._prefetch_related_objects()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1369, in _prefetch_related_objects
+    prefetch_related_objects(self._result_cache, *self._prefetch_related_lookups)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2426, in prefetch_related_objects
+    raise AttributeError(
+    ...<7 lines>...
+    )
+AttributeError: Cannot find 'tags' on Post object, 'tags' is an invalid parameter to prefetch_related()
+ERROR 2026-05-07 12:29:32,587 log 23168 28344 "GET /blog/ HTTP/1.1" 500 179407
+INFO 2026-05-07 12:29:36,133 autoreload 29104 29072 C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py changed, reloading.
+INFO 2026-05-07 12:29:36,169 autoreload 23168 6316 C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py changed, reloading.
+INFO 2026-05-07 12:29:37,410 autoreload 16816 18084 Watching for file changes with StatReloader
+INFO 2026-05-07 12:29:37,421 autoreload 16896 31116 Watching for file changes with StatReloader
+WARNING 2026-05-07 12:29:37,973 log 16896 30240 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:29:37,973 log 16896 26656 Not Found: /reviews
+WARNING 2026-05-07 12:29:37,975 log 16896 30240 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+WARNING 2026-05-07 12:29:37,975 log 16896 26656 "GET /reviews HTTP/1.1" 404 3141
+WARNING 2026-05-07 12:29:40,935 log 16896 26656 Not Found: /analytics/sentiment-summary
+WARNING 2026-05-07 12:29:40,936 log 16896 26656 "GET /analytics/sentiment-summary HTTP/1.1" 404 3201
+INFO 2026-05-07 12:29:49,225 autoreload 16896 31116 C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py changed, reloading.
+INFO 2026-05-07 12:29:49,234 autoreload 16816 18084 C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py changed, reloading.
+INFO 2026-05-07 12:29:50,468 autoreload 29824 31196 Watching for file changes with StatReloader
+INFO 2026-05-07 12:29:50,477 autoreload 24860 700 Watching for file changes with StatReloader
+ERROR 2026-05-07 12:29:52,583 log 29824 16236 Internal Server Error: /blog/
+Traceback (most recent call last):
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 221, in _get_response
+    response = response.render()
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 160, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 66, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\defaulttags.py", line 332, in render
+    if match:
+       ^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 404, in __bool__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2002, in _fetch_all
+    self._prefetch_related_objects()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1369, in _prefetch_related_objects
+    prefetch_related_objects(self._result_cache, *self._prefetch_related_lookups)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2426, in prefetch_related_objects
+    raise AttributeError(
+    ...<7 lines>...
+    )
+AttributeError: Cannot find 'tag_set' on Post object, 'tag_set' is an invalid parameter to prefetch_related()
+ERROR 2026-05-07 12:29:52,596 log 29824 16236 "GET /blog/ HTTP/1.1" 500 179321
+INFO 2026-05-07 12:29:59,457 autoreload 29824 31196 C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py changed, reloading.
+INFO 2026-05-07 12:29:59,998 autoreload 24860 700 C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py changed, reloading.
+INFO 2026-05-07 12:30:00,711 autoreload 5064 29996 Watching for file changes with StatReloader
+INFO 2026-05-07 12:30:01,205 autoreload 31032 30916 Watching for file changes with StatReloader
+ERROR 2026-05-07 12:30:13,792 log 5064 28992 Internal Server Error: /blog/
+Traceback (most recent call last):
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 221, in _get_response
+    response = response.render()
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 160, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 66, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\defaulttags.py", line 332, in render
+    if match:
+       ^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 404, in __bool__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2002, in _fetch_all
+    self._prefetch_related_objects()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1369, in _prefetch_related_objects
+    prefetch_related_objects(self._result_cache, *self._prefetch_related_lookups)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2426, in prefetch_related_objects
+    raise AttributeError(
+    ...<7 lines>...
+    )
+AttributeError: Cannot find 'tag_set' on Post object, 'tag_set' is an invalid parameter to prefetch_related()
+ERROR 2026-05-07 12:30:13,804 log 5064 28992 "GET /blog/ HTTP/1.1" 500 179321
+ERROR 2026-05-07 12:30:20,138 log 5064 28992 Internal Server Error: /blog/
+Traceback (most recent call last):
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 221, in _get_response
+    response = response.render()
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 160, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 66, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\defaulttags.py", line 332, in render
+    if match:
+       ^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 404, in __bool__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2002, in _fetch_all
+    self._prefetch_related_objects()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1369, in _prefetch_related_objects
+    prefetch_related_objects(self._result_cache, *self._prefetch_related_lookups)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2426, in prefetch_related_objects
+    raise AttributeError(
+    ...<7 lines>...
+    )
+AttributeError: Cannot find 'tag_set' on Post object, 'tag_set' is an invalid parameter to prefetch_related()
+ERROR 2026-05-07 12:30:20,145 log 5064 28992 "GET /blog/ HTTP/1.1" 500 179316
+INFO 2026-05-07 12:30:49,079 autoreload 31032 30916 C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py changed, reloading.
+INFO 2026-05-07 12:30:50,117 autoreload 5064 29996 C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py changed, reloading.
+INFO 2026-05-07 12:30:50,296 autoreload 9000 7652 Watching for file changes with StatReloader
+INFO 2026-05-07 12:30:51,319 autoreload 8284 10032 Watching for file changes with StatReloader
+INFO 2026-05-07 12:30:54,384 autoreload 8284 10032 C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py changed, reloading.
+INFO 2026-05-07 12:30:54,505 autoreload 9000 7652 C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py changed, reloading.
+INFO 2026-05-07 12:30:55,519 autoreload 15824 2640 Watching for file changes with StatReloader
+INFO 2026-05-07 12:30:55,686 autoreload 20312 13976 Watching for file changes with StatReloader
+INFO 2026-05-07 12:30:58,592 autoreload 15824 2640 C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py changed, reloading.
+INFO 2026-05-07 12:30:58,754 autoreload 20312 13976 C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py changed, reloading.
+INFO 2026-05-07 12:30:59,732 autoreload 12552 18292 Watching for file changes with StatReloader
+INFO 2026-05-07 12:30:59,991 autoreload 16456 7820 Watching for file changes with StatReloader
+INFO 2026-05-07 13:36:17,625 log 12552 29612 "GET /blog/ HTTP/1.1" 200 36789
+INFO 2026-05-07 13:39:04,968 log 12552 35492 "GET /blog/ HTTP/1.1" 200 36789
+INFO 2026-05-07 13:49:50,208 autoreload 12348 28688 Watching for file changes with StatReloader
+INFO 2026-05-07 13:51:16,381 log 12348 23596 "GET /blog HTTP/1.1" 301 0
+INFO 2026-05-07 13:51:16,483 log 12348 23596 "GET /blog/ HTTP/1.1" 200 36789
+WARNING 2026-05-07 13:51:16,742 log 12348 23596 Not Found: /favicon.ico
+WARNING 2026-05-07 13:51:16,743 log 12348 23596 "GET /favicon.ico HTTP/1.1" 404 3153
+INFO 2026-05-07 13:51:28,916 log 12348 23596 "GET /blog/category/fashion-trends/ HTTP/1.1" 200 27234
+ERROR 2026-05-07 13:51:33,702 log 12348 23596 Internal Server Error: /blog/post/welcome-to-vogueai-fashion-blog-2024/
+Traceback (most recent call last):
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\generic\base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\generic\base.py", line 145, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\generic\detail.py", line 112, in get
+    self.object = self.get_object()
+                  ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py", line 94, in get_object
+    obj = super().get_object()
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\generic\detail.py", line 53, in get_object
+    obj = queryset.get()
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 635, in get
+    num = len(clone)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 372, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2002, in _fetch_all
+    self._prefetch_related_objects()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1369, in _prefetch_related_objects
+    prefetch_related_objects(self._result_cache, *self._prefetch_related_lookups)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 2426, in prefetch_related_objects
+    raise AttributeError(
+    ...<7 lines>...
+    )
+AttributeError: Cannot find 'tags' on Post object, 'tags' is an invalid parameter to prefetch_related()
+ERROR 2026-05-07 13:51:33,711 log 12348 23596 "GET /blog/post/welcome-to-vogueai-fashion-blog-2024/ HTTP/1.1" 500 115929
+INFO 2026-05-07 13:52:59,734 autoreload 12348 28688 C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py changed, reloading.
+INFO 2026-05-07 13:53:00,857 autoreload 24884 6276 Watching for file changes with StatReloader
+INFO 2026-05-07 13:54:33,274 log 24884 10072 "GET /blog/post/welcome-to-vogueai-fashion-blog-2024/ HTTP/1.1" 200 25653
+INFO 2026-05-07 13:54:44,660 log 24884 10072 "GET /admin/login/ HTTP/1.1" 200 4069
+INFO 2026-05-07 13:54:44,999 log 24884 10072 "GET /static/admin/css/base.css HTTP/1.1" 200 23100
+INFO 2026-05-07 13:54:45,005 log 24884 21112 "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 3538
+INFO 2026-05-07 13:54:45,006 log 24884 31284 "GET /static/admin/css/responsive.css HTTP/1.1" 200 16273
+INFO 2026-05-07 13:54:45,009 log 24884 23172 "GET /static/admin/css/login.css HTTP/1.1" 200 951
+INFO 2026-05-07 13:54:45,010 log 24884 16136 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+INFO 2026-05-07 13:54:45,022 log 24884 31076 "GET /static/admin/js/theme.js HTTP/1.1" 200 1653
+INFO 2026-05-07 13:54:45,048 log 24884 16136 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2026-05-07 13:54:51,627 log 24884 16136 "POST /admin/login/ HTTP/1.1" 200 4257
+INFO 2026-05-07 13:55:30,955 log 24884 16136 "POST /admin/login/ HTTP/1.1" 302 0
+INFO 2026-05-07 13:55:31,028 log 24884 16136 "GET /admin/ HTTP/1.1" 200 10642
+INFO 2026-05-07 13:55:31,057 log 24884 16136 "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+INFO 2026-05-07 13:55:31,081 log 24884 16136 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 593
+INFO 2026-05-07 13:55:31,082 log 24884 31076 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 978
+INFO 2026-05-07 13:55:41,207 log 24884 31076 "GET / HTTP/1.1" 302 0
+ERROR 2026-05-07 13:55:41,676 log 24884 31076 Internal Server Error: /blog/
+Traceback (most recent call last):
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 221, in _get_response
+    response = response.render()
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 160, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\defaulttags.py", line 333, in render
+    return nodelist.render(context)
+           ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\defaulttags.py", line 511, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\urls\resolvers.py", line 842, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'logout' not found. 'logout' is not a valid view function or pattern name.
+ERROR 2026-05-07 13:55:41,687 log 24884 31076 "GET /blog/ HTTP/1.1" 500 171978
+INFO 2026-05-07 13:55:58,103 autoreload 24884 6276 C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\vogueblog\urls.py changed, reloading.
+INFO 2026-05-07 13:56:00,419 autoreload 11120 30780 Watching for file changes with StatReloader
+INFO 2026-05-07 13:56:40,472 log 11120 3280 "GET /blog/ HTTP/1.1" 200 38131
+INFO 2026-05-07 13:56:55,053 log 11120 3280 "GET /blog/post/eco-friendly-fashion-tips-2024/ HTTP/1.1" 200 27467
+INFO 2026-05-07 13:57:04,605 log 11120 3280 "GET / HTTP/1.1" 302 0
+INFO 2026-05-07 13:57:04,648 log 11120 3280 "GET /blog/ HTTP/1.1" 200 38131
+WARNING 2026-05-07 13:57:11,556 log 11120 3280 Method Not Allowed (GET): /accounts/logout/
+WARNING 2026-05-07 13:57:11,560 log 11120 3280 "GET /accounts/logout/ HTTP/1.1" 405 0
+WARNING 2026-05-07 13:57:13,535 log 11120 3280 Method Not Allowed (GET): /accounts/logout/
+WARNING 2026-05-07 13:57:13,537 log 11120 3280 "GET /accounts/logout/ HTTP/1.1" 405 0
+INFO 2026-05-07 13:57:20,828 log 11120 3280 "GET /blog/ HTTP/1.1" 200 38131
+WARNING 2026-05-07 14:16:00,965 log 11120 24948 Not Found: /favicon.ico
+WARNING 2026-05-07 14:16:00,966 log 11120 24948 "GET /favicon.ico HTTP/1.1" 404 3305
+INFO 2026-05-07 14:16:15,684 log 11120 24948 "GET /blog/ HTTP/1.1" 200 38521
+WARNING 2026-05-07 14:16:46,323 log 11120 24948 Method Not Allowed (GET): /accounts/logout/
+WARNING 2026-05-07 14:16:46,341 log 11120 24948 "GET /accounts/logout/ HTTP/1.1" 405 0
+INFO 2026-05-07 14:16:54,295 log 11120 24948 "GET /blog/ HTTP/1.1" 200 38521
+INFO 2026-05-07 14:16:57,558 log 11120 24948 "GET /blog/post/eco-friendly-fashion-tips-2024/ HTTP/1.1" 200 27756
+ERROR 2026-05-07 14:17:02,863 log 11120 24948 Internal Server Error: /blog/my-posts/
+Traceback (most recent call last):
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py", line 254, in my_posts
+    return render(request, 'blog/my_posts.html', {
+        'page_obj': page_obj,
+        'posts': page_obj,
+        'title': 'My Posts'
+    })
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: blog/my_posts.html
+ERROR 2026-05-07 14:17:02,869 log 11120 24948 "GET /blog/my-posts/ HTTP/1.1" 500 95491
+ERROR 2026-05-07 14:17:15,591 log 11120 24948 Internal Server Error: /blog/my-bookmarks/
+Traceback (most recent call last):
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py", line 272, in my_bookmarks
+    return render(request, 'blog/my_bookmarks.html', {
+        'page_obj': page_obj,
+        'bookmarks': page_obj,
+        'title': 'My Bookmarks'
+    })
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: blog/my_bookmarks.html
+ERROR 2026-05-07 14:17:15,595 log 11120 24948 "GET /blog/my-bookmarks/ HTTP/1.1" 500 95519
+ERROR 2026-05-07 14:18:24,747 log 11120 24948 Internal Server Error: /blog/my-posts/
+Traceback (most recent call last):
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py", line 254, in my_posts
+    return render(request, 'blog/my_posts.html', {
+        'page_obj': page_obj,
+        'posts': page_obj,
+        'title': 'My Posts'
+    })
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: blog/my_posts.html
+ERROR 2026-05-07 14:18:24,751 log 11120 24948 "GET /blog/my-posts/ HTTP/1.1" 500 95491
+INFO 2026-05-07 14:18:37,125 log 11120 24948 "GET /blog/ HTTP/1.1" 200 38306
+WARNING 2026-05-07 14:18:41,530 log 11120 24948 Not Found: /blog/post/create/
+WARNING 2026-05-07 14:18:41,531 log 11120 24948 "GET /blog/post/create/ HTTP/1.1" 404 3095
+ERROR 2026-05-07 14:18:54,430 log 11120 24948 Internal Server Error: /blog/my-bookmarks/
+Traceback (most recent call last):
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py", line 272, in my_bookmarks
+    return render(request, 'blog/my_bookmarks.html', {
+        'page_obj': page_obj,
+        'bookmarks': page_obj,
+        'title': 'My Bookmarks'
+    })
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: blog/my_bookmarks.html
+ERROR 2026-05-07 14:18:54,433 log 11120 24948 "GET /blog/my-bookmarks/ HTTP/1.1" 500 95483
+INFO 2026-05-07 14:19:10,858 log 11120 24948 "GET /blog/category/style-tips/ HTTP/1.1" 200 25400
+INFO 2026-05-07 14:19:14,161 log 11120 24948 "GET /blog/post/latest-fashion-trends-2024/ HTTP/1.1" 200 26332
+INFO 2026-05-07 14:19:20,082 log 11120 24948 "GET /admin/ HTTP/1.1" 200 10642
+INFO 2026-05-07 14:19:27,919 log 11120 24948 "GET /admin/blog/comment/ HTTP/1.1" 200 13451
+INFO 2026-05-07 14:19:28,018 log 11120 9528 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-05-07 14:19:28,061 log 11120 24948 "GET /static/admin/css/changelists.css HTTP/1.1" 200 7498
+INFO 2026-05-07 14:19:28,092 log 11120 24948 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2026-05-07 14:19:28,092 log 11120 9528 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2026-05-07 14:19:28,124 log 11120 9528 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2026-05-07 14:19:28,146 log 11120 9528 "GET /static/admin/img/search.svg HTTP/1.1" 200 607
+INFO 2026-05-07 14:19:28,177 log 11120 13872 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2026-05-07 14:19:28,216 log 11120 22920 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2026-05-07 14:19:28,218 log 11120 17492 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2026-05-07 14:19:28,274 log 11120 26340 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2026-05-07 14:19:28,277 log 11120 24948 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2026-05-07 14:19:28,333 log 11120 26340 "GET /static/admin/js/filters.js HTTP/1.1" 200 978
+INFO 2026-05-07 14:19:28,344 log 11120 24948 "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 593
+INFO 2026-05-07 14:19:28,345 log 11120 17492 "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 928
+INFO 2026-05-07 14:19:39,190 log 11120 17492 "GET /admin/ HTTP/1.1" 200 10642
+INFO 2026-05-07 14:19:43,734 log 11120 17492 "GET / HTTP/1.1" 302 0
+INFO 2026-05-07 14:19:43,777 log 11120 17492 "GET /blog/ HTTP/1.1" 200 38306
+INFO 2026-05-07 14:19:52,262 log 11120 17492 "GET /blog/category/sustainable-fashion/ HTTP/1.1" 200 28638
+INFO 2026-05-07 14:19:55,076 log 11120 17492 "GET /blog/post/eco-friendly-fashion-tips-2024/ HTTP/1.1" 200 27670
+INFO 2026-05-07 14:21:52,791 log 11120 17492 "GET /blog/ HTTP/1.1" 200 38306
+ERROR 2026-05-07 14:21:55,535 log 11120 17492 Internal Server Error: /blog/my-bookmarks/
+Traceback (most recent call last):
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 135, in render
+    compiled_parent = self.get_parent(context)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 132, in get_parent
+    return self.find_template(parent, context)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 110, in find_template
+    template, origin = context.template.engine.find_template(
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        template_name,
+        ^^^^^^^^^^^^^^
+        skip=history,
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\engine.py", line 163, in find_template
+    raise TemplateDoesNotExist(name, tried=tried)
+django.template.exceptions.TemplateDoesNotExist: blog/base.html
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py", line 272, in my_bookmarks
+    return render(request, 'blog/my_bookmarks.html', {
+        'page_obj': page_obj,
+        'bookmarks': page_obj,
+        'title': 'My Bookmarks'
+    })
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 109, in render
+    reraise(exc, self.backend)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 130, in reraise
+    raise new from exc
+django.template.exceptions.TemplateDoesNotExist: blog/base.html
+ERROR 2026-05-07 14:21:55,544 log 11120 17492 "GET /blog/my-bookmarks/ HTTP/1.1" 500 143971
+ERROR 2026-05-07 14:21:57,733 log 11120 17492 Internal Server Error: /blog/my-bookmarks/
+Traceback (most recent call last):
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 135, in render
+    compiled_parent = self.get_parent(context)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 132, in get_parent
+    return self.find_template(parent, context)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader_tags.py", line 110, in find_template
+    template, origin = context.template.engine.find_template(
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        template_name,
+        ^^^^^^^^^^^^^^
+        skip=history,
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\engine.py", line 163, in find_template
+    raise TemplateDoesNotExist(name, tried=tried)
+django.template.exceptions.TemplateDoesNotExist: blog/base.html
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py", line 272, in my_bookmarks
+    return render(request, 'blog/my_bookmarks.html', {
+        'page_obj': page_obj,
+        'bookmarks': page_obj,
+        'title': 'My Bookmarks'
+    })
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 109, in render
+    reraise(exc, self.backend)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sahana Santosh Nayak\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 130, in reraise
+    raise new from exc
+django.template.exceptions.TemplateDoesNotExist: blog/base.html
+ERROR 2026-05-07 14:21:57,773 log 11120 17492 "GET /blog/my-bookmarks/ HTTP/1.1" 500 144108
+INFO 2026-05-07 14:23:53,922 autoreload 11120 30780 C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py changed, reloading.
+INFO 2026-05-07 14:23:55,188 autoreload 32340 8408 Watching for file changes with StatReloader
+INFO 2026-05-07 14:23:57,275 autoreload 32340 8408 C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py changed, reloading.
+INFO 2026-05-07 14:23:58,407 autoreload 12076 12292 Watching for file changes with StatReloader
+INFO 2026-05-07 14:24:03,646 autoreload 12076 12292 C:\Users\Sahana Santosh Nayak\OneDrive\Desktop\WDL\voguai\django_project\blog\views.py changed, reloading.
+INFO 2026-05-07 14:24:04,824 autoreload 32420 19268 Watching for file changes with StatReloader

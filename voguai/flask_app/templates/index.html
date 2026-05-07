@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}VogueAI - Fashion Discovery & Sentiment Analysis{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-banner" style="background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1920&h=800&fit=crop');">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1 class="display-2 fw-bold mb-4" style="font-family: 'Playfair Display', serif;">Discover Your Style</h1>
+        <p class="lead mb-4">AI-powered fashion recommendations tailored just for you</p>
+        <a href="{{ url_for('collections_list') }}" class="btn btn-warning btn-lg px-4 py-3">Explore Collections</a>
+    </div>
+</section>
+
+<!-- Featured Collections Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: var(--primary-black);">Featured Collections</h2>
+            <p class="lead text-muted">Discover our curated selection of fashion-forward pieces</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for collection_key, collection in collections.items() %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card fashion-card h-100 border-0 shadow-sm">
+                    <img src="{{ collection.banner_image }}" class="card-img-top" alt="{{ collection.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">{{ collection.name }}</h5>
+                        <p class="card-text text-muted">{{ collection.description }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-warning fw-bold">{{ collection.products|length }} Items</span>
+                            <a href="{{ url_for('collection_detail', name=collection_key) }}" class="btn btn-outline-dark btn-sm">View Collection</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- About Preview Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <article>
+                    <h2 class="display-4 fw-bold mb-4" style="font-family: 'Playfair Display', serif; color: var(--primary-black);">About VogueAI</h2>
+                    <p class="lead mb-4">Revolutionizing fashion discovery through artificial intelligence and sentiment analysis.</p>
+                    <p class="mb-3">VogueAI stands at the intersection of fashion and technology, bringing you a revolutionary platform that understands your style preferences through advanced AI algorithms. Our sentiment analysis system analyzes fashion trends, customer reviews, and social media buzz to provide you with personalized recommendations that truly resonate with your unique style.</p>
+                    <p class="mb-3">Founded in 2024, we've quickly become the go-to destination for fashion enthusiasts who value both style and substance. Our platform combines the latest in machine learning technology with a deep understanding of fashion aesthetics to create an unparalleled shopping experience.</p>
+                    <a href="{{ url_for('about') }}" class="btn btn-dark btn-lg px-4 py-2">Learn More</a>
+                </article>
+            </div>
+            <div class="col-lg-4">
+                <aside class="bg-light p-4 rounded">
+                    <h4 class="fw-bold mb-3" style="color: var(--primary-gold);">Latest Fashion Tips</h4>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action border-0 bg-light mb-2">
+                            <h6 class="mb-1 fw-bold">Summer 2024 Color Trends</h6>
+                            <small class="text-muted">Discover the hottest colors this season</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action border-0 bg-light mb-2">
+                            <h6 class="mb-1 fw-bold">Sustainable Fashion Guide</h6>
+                            <small class="text-muted">Eco-friendly choices for conscious shoppers</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action border-0 bg-light mb-2">
+                            <h6 class="mb-1 fw-bold">Accessory Styling Tips</h6>
+                            <small class="text-muted">How to elevate any outfit with the right accessories</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action border-0 bg-light">
+                            <h6 class="mb-1 fw-bold">Minimalist Wardrobe Essentials</h6>
+                            <small class="text-muted">Build a capsule wardrobe that works</small>
+                        </a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: var(--primary-black);">Ready to Transform Your Style?</h2>
+            <p class="lead text-muted mb-4">Join thousands of fashion enthusiasts using AI to discover their perfect look</p>
+            <div class="d-flex gap-3 justify-content-center">
+                <a href="/sentiment" class="btn btn-dark btn-lg px-4 py-3">Try Sentiment Analysis</a>
+                <a href="{{ url_for('collections_list') }}" class="btn btn-outline-dark btn-lg px-4 py-3">Browse Collections</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Add smooth scrolling and animations
+document.addEventListener('DOMContentLoaded', function() {
+    // Smooth scrolling for navigation links
+    const navLinks = document.querySelectorAll('a[href^="#"]');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+            
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+    
+    // Add animation to cards when they come into view
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in-up');
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('.fashion-card').forEach(card => {
+        observer.observe(card);
+    });
+});
+</script>
+{% endblock %}

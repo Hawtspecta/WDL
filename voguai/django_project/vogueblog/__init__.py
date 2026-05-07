@@ -1,0 +1,1 @@
+# VogueAI Django Project

@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Post - VogueAI Blog{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 mx-auto">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-danger text-white p-4">
+                    <h2 class="mb-0 fw-bold">
+                        <i class="bi bi-exclamation-triangle me-2"></i>Delete Post
+                    </h2>
+                </div>
+                <div class="card-body p-4">
+                    <div class="alert alert-warning" role="alert">
+                        <i class="bi bi-exclamation-circle me-2"></i>
+                        <strong>Warning:</strong> This action cannot be undone. Once you delete this post, it will be permanently removed from the blog.
+                    </div>
+
+                    <div class="mb-4">
+                        <h5 class="fw-bold mb-3">Post Details</h5>
+                        <div class="bg-light p-3 rounded">
+                            <h6 class="mb-2">{{ post.title }}</h6>
+                            <p class="text-muted mb-1">
+                                <strong>Category:</strong> {{ post.category.name }}
+                            </p>
+                            <p class="text-muted mb-1">
+                                <strong>Author:</strong> {{ post.author.username }}
+                            </p>
+                            <p class="text-muted mb-0">
+                                <strong>Created:</strong> {{ post.created_at|date:"F d, Y H:i" }}
+                            </p>
+                            {% if post.published_at %}
+                                <p class="text-muted mb-0">
+                                    <strong>Published:</strong> {{ post.published_at|date:"F d, Y H:i" }}
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if post.comments.count > 0 %}
+                        <div class="alert alert-info" role="alert">
+                            <i class="bi bi-info-circle me-2"></i>
+                            This post has <strong>{{ post.comments.count }}</strong> comment(s) that will also be deleted.
+                        </div>
+                    {% endif %}
+
+                    <div class="mb-4">
+                        <h5 class="fw-bold mb-3">Are you sure you want to delete this post?</h5>
+                        <p class="text-muted">
+                            Consider if you might want to unpublish the post instead (change status to Draft) if you plan to use it again in the future.
+                        </p>
+                    </div>
+
+                    <form method="POST" class="d-flex justify-content-between">
+                        {% csrf_token %}
+                        <div>
+                            <a href="{% url 'blog:post_detail' post.slug %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-2"></i>Cancel, Keep Post
+                            </a>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash me-2"></i>Yes, Delete Post
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Alternative Options -->
+            <div class="card border-0 bg-light mt-4">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3">
+                        <i class="bi bi-lightbulb me-2"></i>Alternative Options
+                    </h5>
+                    <p class="text-muted mb-3">Instead of deleting, you could:</p>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'blog:post_update' post.slug %}" class="btn btn-outline-dark">
+                            <i class="bi bi-pencil me-2"></i>Edit Post
+                        </a>
+                        <button class="btn btn-outline-secondary" disabled>
+                            <i class="bi bi-eye-slash me-2"></i>Unpublish Post (Change to Draft)
+                        </button>
+                        <small class="text-muted d-block mt-2">
+                            To unpublish, edit the post and change the status to "Draft"
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add confirmation before form submission
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+        const confirmed = confirm('Are you absolutely sure you want to delete this post? This action cannot be undone.');
+        if (!confirmed) {
+            e.preventDefault();
+        }
+    });
+});
+</script>
+{% endblock %}

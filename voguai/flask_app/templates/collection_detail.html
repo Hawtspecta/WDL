@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+
+{% block title %}{{ collection.name }} - VogueAI Fashion Discovery{% endblock %}
+
+{% block content %}
+<!-- Collection Hero Banner -->
+<section class="hero-banner" style="background-image: url('{{ collection.banner_image }}');">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1 class="display-2 fw-bold mb-4" style="font-family: 'Playfair Display', serif;">{{ collection.name }}</h1>
+        <p class="lead mb-4">{{ collection.description }}</p>
+        <div class="d-flex gap-3 justify-content-center">
+            <span class="badge bg-warning text-dark fs-6">{{ products|length }} Items</span>
+            <span class="badge bg-light text-dark fs-6">New Collection</span>
+        </div>
+    </div>
+</section>
+
+<!-- Products Grid -->
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold" style="font-family: 'Playfair Display', serif;">Collection Items</h2>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-dark active" onclick="sortProducts('name')">Name</button>
+                <button type="button" class="btn btn-outline-dark" onclick="sortProducts('price')">Price</button>
+                <button type="button" class="btn btn-outline-dark" onclick="sortProducts('rating')">Rating</button>
+            </div>
+        </div>
+        
+        <div class="row g-4" id="productsGrid">
+            {% for product in products %}
+            <div class="col-lg-4 col-md-6 product-item" data-name="{{ product.name }}" data-price="{{ product.price }}" data-rating="{{ product.rating }}">
+                <div class="card fashion-card h-100 border-0 shadow-sm">
+                    <img src="{{ product.image_url }}" class="card-img-top" alt="{{ product.name }}">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title fw-bold">{{ product.name }}</h5>
+                            <span class="badge bg-warning text-dark">{{ product.category }}</span>
+                        </div>
+                        <p class="card-text text-muted small mb-2">{{ product.brand }}</p>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="fs-4 fw-bold text-warning">${{ "%.2f"|format(product.price) }}</span>
+                            <div class="text-warning">
+                                {% for i in range(product.rating|int) %}
+                                    <i class="bi bi-star-fill"></i>
+                                {% endfor %}
+                                {% if product.rating < 5 %}
+                                    <i class="bi bi-star"></i>
+                                {% endif %}
+                                <small class="text-muted">({{ product.rating }})</small>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-dark" onclick="viewProduct('{{ product.id }}')">View Details</button>
+                            <button class="btn btn-outline-dark">Add to Wishlist</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        {% if products|length == 0 %}
+        <div class="text-center py-5">
+            <i class="bi bi-inbox fs-1 text-muted"></i>
+            <h3 class="mt-3">No Products Available</h3>
+            <p class="text-muted">This collection is currently being updated with new items.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Collection Features -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <h3 class="fw-bold mb-4" style="font-family: 'Playfair Display', serif;">About This Collection</h3>
+                <p class="text-muted mb-3">{{ collection.description }}</p>
+                <p class="text-muted mb-4">This collection has been carefully curated by our AI-powered fashion experts to bring you the latest trends and timeless classics. Each piece is selected for its quality, style, and ability to elevate your wardrobe.</p>
+                
+                <h5 class="fw-bold mb-3">Collection Highlights:</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-warning me-2"></i> Premium quality materials</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-warning me-2"></i> Trend-setting designs</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-warning me-2"></i> Versatile styling options</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-warning me-2"></i> Sustainable fashion choices</li>
+                </ul>
+            </div>
+            <div class="col-lg-6">
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <h5 class="fw-bold mb-3">Style Tips</h5>
+                    {% if collection_name == 'summer' %}
+                        <p class="text-muted mb-3">Embrace lightweight fabrics and bright colors for the perfect summer look. Mix and match these pieces for endless styling possibilities.</p>
+                        <div class="mb-3">
+                            <span class="badge bg-light text-dark me-1">Beach Ready</span>
+                            <span class="badge bg-light text-dark me-1">Casual Chic</span>
+                            <span class="badge bg-light text-dark">Vacation Style</span>
+                        </div>
+                    {% elif collection_name == 'business' %}
+                        <p class="text-muted mb-3">Professional attire that commands respect while maintaining comfort. Perfect for board meetings and business presentations.</p>
+                        <div class="mb-3">
+                            <span class="badge bg-light text-dark me-1">Office Ready</span>
+                            <span class="badge bg-light text-dark me-1">Executive Style</span>
+                            <span class="badge bg-light text-dark">Power Dressing</span>
+                        </div>
+                    {% elif collection_name == 'evening' %}
+                        <p class="text-muted mb-3">Make a statement at any evening event with these stunning pieces designed to turn heads and create memorable moments.</p>
+                        <div class="mb-3">
+                            <span class="badge bg-light text-dark me-1">Red Carpet</span>
+                            <span class="badge bg-light text-dark me-1">Cocktail Party</span>
+                            <span class="badge bg-light text-dark">Gala Ready</span>
+                        </div>
+                    {% elif collection_name == 'casual' %}
+                        <p class="text-muted mb-3">Comfort meets style in our casual collection. Perfect for weekend outings, coffee dates, and everyday adventures.</p>
+                        <div class="mb-3">
+                            <span class="badge bg-light text-dark me-1">Weekend Vibes</span>
+                            <span class="badge bg-light text-dark me-1">Street Style</span>
+                            <span class="badge bg-light text-dark">Everyday Comfort</span>
+                        </div>
+                    {% elif collection_name == 'accessories' %}
+                        <p class="text-muted mb-3">The perfect finishing touches to complete any outfit. From statement pieces to subtle accents, we have it all.</p>
+                        <div class="mb-3">
+                            <span class="badge bg-light text-dark me-1">Statement Pieces</span>
+                            <span class="badge bg-light text-dark me-1">Daily Essentials</span>
+                            <span class="badge bg-light text-dark">Luxury Details</span>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="mt-4">
+                        <h6 class="fw-bold mb-2">Care Instructions</h6>
+                        <p class="text-muted small">All items in this collection come with detailed care instructions to ensure longevity and maintain quality.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Collections -->
+<section class="py-5">
+    <div class="container">
+        <h3 class="fw-bold mb-4 text-center" style="font-family: 'Playfair Display', serif;">Explore More Collections</h3>
+        <div class="row g-4">
+            {% set other_collections = collections.items() | list %}
+            {% for collection_key, other_collection in other_collections %}
+                {% if collection_key != collection_name %}
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm">
+                            <img src="{{ other_collection.banner_image }}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="{{ other_collection.name }}">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">{{ other_collection.name }}</h5>
+                                <p class="card-text text-muted small">{{ other_collection.description[:50] }}...</p>
+                                <a href="{{ url_for('collection_detail', name=collection_key) }}" class="btn btn-outline-dark btn-sm">View Collection</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if loop.index >= 3 %}{% break %}{% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add animation to cards when they come into view
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in-up');
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('.product-item').forEach(item => {
+        observer.observe(item);
+    });
+});
+
+// Sort products function
+function sortProducts(criteria) {
+    const grid = document.getElementById('productsGrid');
+    const items = Array.from(grid.querySelectorAll('.product-item'));
+    
+    // Update active button
+    document.querySelectorAll('.btn-group .btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    // Sort items
+    items.sort((a, b) => {
+        if (criteria === 'name') {
+            return a.dataset.name.localeCompare(b.dataset.name);
+        } else if (criteria === 'price') {
+            return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+        } else if (criteria === 'rating') {
+            return parseFloat(b.dataset.rating) - parseFloat(a.dataset.rating);
+        }
+    });
+    
+    // Re-append sorted items
+    items.forEach(item => grid.appendChild(item));
+}
+
+// View product details
+function viewProduct(productId) {
+    // In a real application, this would open a product detail modal or navigate to product page
+    fetch(`/api/products/${productId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert(`Product: ${data.data.name}\nPrice: $${data.data.price}\nBrand: ${data.data.brand}\nRating: ${data.data.rating}`);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching product:', error);
+            alert('Error loading product details');
+        });
+}
+</script>
+{% endblock %}

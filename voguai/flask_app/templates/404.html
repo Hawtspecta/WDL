@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | VogueAI</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-black: #0a0a0a;
+            --primary-gold: #c9a84c;
+            --primary-white: #ffffff;
+            --primary-rose: #e8b4b8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-black);
+            color: var(--primary-white);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .error-container {
+            text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+        }
+
+        .error-code {
+            font-size: 8rem;
+            font-weight: 900;
+            color: var(--primary-gold);
+            line-height: 1;
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .error-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .error-description {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .btn-dark {
+            background-color: var(--primary-gold);
+            border-color: var(--primary-gold);
+            color: var(--primary-black);
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-dark:hover {
+            background-color: var(--primary-white);
+            border-color: var(--primary-white);
+            color: var(--primary-black);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-light {
+            border-color: var(--primary-white);
+            color: var(--primary-white);
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-light:hover {
+            background-color: var(--primary-white);
+            color: var(--primary-black);
+            transform: translateY(-2px);
+        }
+
+        .fashion-icon {
+            font-size: 4rem;
+            color: var(--primary-gold);
+            margin-bottom: 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .suggestions {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .suggestions h4 {
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .suggestions ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .suggestions li {
+            margin-bottom: 0.5rem;
+            color: #ccc;
+        }
+
+        .suggestions a {
+            color: var(--primary-gold);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .suggestions a:hover {
+            color: var(--primary-white);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="fashion-icon">
+            <i class="bi bi-gem"></i>
+        </div>
+        
+        <div class="error-code">404</div>
+        <h1 class="error-title">Fashion Not Found</h1>
+        <p class="error-description">
+            Oops! The page you're looking for seems to have gone out of style. 
+            Don't worry, even the best fashion collections sometimes have missing pieces.
+        </p>
+        
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="/" class="btn btn-dark">Back to Home</a>
+            <a href="/collections" class="btn btn-outline-light">Browse Collections</a>
+        </div>
+        
+        <div class="suggestions">
+            <h4>You might be looking for:</h4>
+            <ul>
+                <li><i class="bi bi-arrow-right me-2"></i><a href="/">Homepage - Discover your style</a></li>
+                <li><i class="bi bi-arrow-right me-2"></i><a href="/collections">Fashion Collections</a></li>
+                <li><i class="bi bi-arrow-right me-2"></i><a href="/sentiment">Sentiment Analysis</a></li>
+                <li><i class="bi bi-arrow-right me-2"></i><a href="/about">About VogueAI</a></li>
+            </ul>
+        </div>
+        
+        <div class="mt-4">
+            <small class="text-muted">
+                Error Code: 404 | Page Not Found | 
+                <span id="current-time"></span>
+            </small>
+        </div>
+    </div>
+
+    <script>
+        // Display current time
+        document.getElementById('current-time').textContent = new Date().toLocaleString();
+        
+        // Add some interactive fashion elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Random fashion quote
+            const quotes = [
+                "Fashion is the armor to survive the reality of everyday life.",
+                "Style is a way to say who you are without having to speak.",
+                "Fashion fades, only style remains the same.",
+                "Dress like you're already famous.",
+                "Life is too short to wear boring clothes."
+            ];
+            
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            
+            // Create quote element
+            const quoteElement = document.createElement('div');
+            quoteElement.className = 'mt-4 fst-italic text-muted';
+            quoteElement.innerHTML = `<i class="bi bi-quote me-2"></i>${randomQuote}`;
+            document.querySelector('.error-container').appendChild(quoteElement);
+        });
+    </script>
+</body>
+</html>

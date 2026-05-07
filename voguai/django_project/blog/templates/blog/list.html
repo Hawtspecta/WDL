@@ -1,0 +1,305 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} - VogueAI Blog{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <!-- Page Header -->
+            <div class="mb-4">
+                {% if current_category %}
+                    <h1 class="display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif;">
+                        {{ current_category.name }}
+                    </h1>
+                    <p class="text-muted">{{ current_category.description }}</p>
+                {% elif current_tag %}
+                    <h1 class="display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif;">
+                        Tag: {{ current_tag.name }}
+                    </h1>
+                    <p class="text-muted">Posts tagged with "{{ current_tag.name }}"</p>
+                {% elif search_query %}
+                    <h1 class="display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif;">
+                        Search Results
+                    </h1>
+                    <p class="text-muted">Showing results for "{{ search_query }}"</p>
+                {% else %}
+                    <h1 class="display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif;">
+                        Fashion & Style Blog
+                    </h1>
+                    <p class="text-muted">Discover the latest trends, style tips, and AI-powered fashion insights</p>
+                {% endif %}
+            </div>
+
+            <!-- Featured Posts -->
+            {% if featured_posts and not current_category and not current_tag and not search_query %}
+                <div class="mb-5">
+                    <h2 class="fw-bold mb-4">Featured Posts</h2>
+                    <div class="row g-4">
+                        {% for post in featured_posts %}
+                            <div class="col-md-4">
+                                <div class="card blog-card h-100">
+                                    {% if post.image %}
+                                        <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+                                    {% else %}
+                                        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=250&fit=crop" class="card-img-top" alt="{{ post.title }}">
+                                    {% endif %}
+                                    <div class="card-body">
+                                        <div class="mb-2">
+                                            <span class="category-badge">{{ post.category.name }}</span>
+                                            <span class="featured-badge ms-2">Featured</span>
+                                        </div>
+                                        <h5 class="card-title fw-bold">
+                                            <a href="{% url 'blog:post_detail' post.slug %}" class="text-decoration-none text-dark">
+                                                {{ post.title }}
+                                            </a>
+                                        </h5>
+                                        <p class="card-text text-muted">{{ post.excerpt|truncatewords:20 }}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">
+                                                <i class="bi bi-person me-1"></i>{{ post.author.username }}
+                                                <span class="ms-2"><i class="bi bi-calendar me-1"></i>{{ post.published_at|date:"M d, Y" }}</span>
+                                            </small>
+                                            <small class="text-muted">
+                                                <i class="bi bi-eye me-1"></i>{{ post.views }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <hr class="my-5">
+            {% endif %}
+
+            <!-- Search Form -->
+            <div class="search-form mb-4">
+                <form method="GET" action="{% url 'blog:search' %}">
+                    <input type="text" name="q" class="form-control" placeholder="Search posts..." value="{{ search_query }}">
+                    <button type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Blog Posts -->
+            {% if posts %}
+                <div class="row g-4">
+                    {% for post in posts %}
+                        <div class="col-md-6">
+                            <article class="card blog-card h-100">
+                                {% if post.image %}
+                                    <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+                                {% else %}
+                                    {% if post.slug|slice:":1" == "a" %}
+                                        <img src="https://picsum.photos/400/250?random=1" class="card-img-top" alt="{{ post.title }}">
+                                    {% elif post.slug|slice:":1" == "b" %}
+                                        <img src="https://picsum.photos/400/250?random=2" class="card-img-top" alt="{{ post.title }}">
+                                    {% elif post.slug|slice:":1" == "c" %}
+                                        <img src="https://picsum.photos/400/250?random=3" class="card-img-top" alt="{{ post.title }}">
+                                    {% elif post.slug|slice:":1" == "d" %}
+                                        <img src="https://picsum.photos/400/250?random=4" class="card-img-top" alt="{{ post.title }}">
+                                    {% else %}
+                                        <img src="https://picsum.photos/400/250?random=5" class="card-img-top" alt="{{ post.title }}">
+                                    {% endif %}
+                                {% endif %}
+                                <div class="card-body">
+                                    <div class="mb-2">
+                                        <span class="category-badge">{{ post.category.name }}</span>
+                                        {% if post.featured %}
+                                            <span class="featured-badge ms-2">Featured</span>
+                                        {% endif %}
+                                    </div>
+                                    <h5 class="card-title fw-bold">
+                                        <a href="{% url 'blog:post_detail' post.slug %}" class="text-decoration-none text-dark">
+                                            {{ post.title }}
+                                        </a>
+                                    </h5>
+                                    <p class="card-text text-muted">{{ post.excerpt|truncatewords:15 }}</p>
+                                    
+                                    <!-- Tags -->
+                                    {% if post.tags.all %}
+                                        <div class="mb-3">
+                                            {% for tag in post.tags.all %}
+                                                <a href="?tag={{ tag.slug }}" class="text-decoration-none me-2">
+                                                    <small class="text-muted">#{{ tag.name }}</small>
+                                                </a>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">
+                                            <i class="bi bi-person me-1"></i>{{ post.author.username }}
+                                            <span class="ms-2"><i class="bi bi-calendar me-1"></i>{{ post.published_at|date:"M d, Y" }}</span>
+                                        </small>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <small class="text-muted">
+                                                <i class="bi bi-eye me-1"></i>{{ post.views }}
+                                            </small>
+                                            <small class="text-muted">
+                                                <i class="bi bi-clock me-1"></i>{{ post.read_time }}min
+                                            </small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-3">
+                                        <a href="{% url 'blog:post_detail' post.slug %}" class="btn btn-outline-dark btn-sm">
+                                            Read More <i class="bi bi-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if is_paginated %}
+                    <nav aria-label="Blog posts pagination" class="mt-5">
+                        <ul class="pagination justify-content-center">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">
+                                        <i class="bi bi-chevron-left"></i> Previous
+                                    </a>
+                                </li>
+                            {% endif %}
+                            
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if page_obj.number == num %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ num }}</span>
+                                    </li>
+                                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}">{{ num }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">
+                                        Next <i class="bi bi-chevron-right"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                {% endif %}
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-inbox fs-1 text-muted"></i>
+                    <h3 class="mt-3">No posts found</h3>
+                    <p class="text-muted">
+                        {% if search_query %}
+                            No posts found matching your search criteria.
+                        {% else %}
+                            No posts available in this category yet.
+                        {% endif %}
+                    </p>
+                    <a href="{% url 'blog:post_list' %}" class="btn btn-dark">Browse All Posts</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Categories Widget -->
+            <div class="sidebar-widget">
+                <h5><i class="bi bi-folder me-2"></i>Categories</h5>
+                <div class="list-group list-group-flush">
+                    {% for category in categories %}
+                        {% if category.post_count > 0 %}
+                            <a href="{% url 'blog:category_posts' category.slug %}" 
+                               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                {{ category.name }}
+                                <span class="badge bg-dark rounded-pill">{{ category.post_count }}</span>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Tags Widget -->
+            <div class="sidebar-widget">
+                <h5><i class="bi bi-tags me-2"></i>Popular Tags</h5>
+                <div class="tag-cloud">
+                    {% for tag in tags %}
+                        {% if tag.post_count > 0 %}
+                            <a href="?tag={{ tag.slug }}" class="tag">{{ tag.name }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Recent Posts Widget -->
+            <div class="sidebar-widget">
+                <h5><i class="bi bi-clock-history me-2"></i>Recent Posts</h5>
+                <div class="list-group list-group-flush">
+                    {% for post in posts|slice:":5" %}
+                        <a href="{% url 'blog:post_detail' post.slug %}" 
+                           class="list-group-item list-group-item-action px-0">
+                            <h6 class="mb-1 fw-bold">{{ post.title|truncatewords:8 }}</h6>
+                            <small class="text-muted">{{ post.published_at|date:"M d, Y" }}</small>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Create Post Button (for authenticated users) -->
+            {% if user.is_authenticated %}
+                <div class="sidebar-widget text-center">
+                    <h5><i class="bi bi-pencil-square me-2"></i>Create Content</h5>
+                    <p class="text-muted small">Share your fashion insights with our community</p>
+                    <a href="{% url 'blog:post_create' %}" class="btn btn-dark w-100">
+                        <i class="bi bi-plus-circle me-2"></i>Create New Post
+                    </a>
+                </div>
+            {% endif %}
+
+            <!-- Newsletter Widget -->
+            <div class="sidebar-widget">
+                <h5><i class="bi bi-envelope me-2"></i>Newsletter</h5>
+                <p class="text-muted small">Get the latest fashion trends delivered to your inbox</p>
+                <form id="sidebarNewsletterForm" class="d-flex gap-2">
+                    <input type="email" class="form-control form-control-sm" placeholder="Your email" required>
+                    <button type="submit" class="btn btn-dark btn-sm">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Sidebar newsletter form
+document.getElementById('sidebarNewsletterForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const email = this.querySelector('input[type="email"]').value;
+    
+    try {
+        const response = await fetch('{% url "blog:newsletter_subscribe" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: `email=${encodeURIComponent(email)}&name=`
+        });
+        
+        if (response.ok) {
+            showAlert('Thank you for subscribing!', 'success');
+            this.reset();
+        } else {
+            showAlert('Subscription failed. Please try again.', 'danger');
+        }
+    } catch (error) {
+        showAlert('An error occurred. Please try again.', 'danger');
+    }
+});
+</script>
+{% endblock %}

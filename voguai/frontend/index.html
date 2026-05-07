@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VogueAI - Fashion Discovery & Sentiment Analysis</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header class="bg-dark text-white">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="#" style="font-family: 'Playfair Display', serif;">
+                    <i class="bi bi-gem-fill text-warning"></i> VogueAI
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#home">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#collections">Collections</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="sentiment.html">Sentiment Analysis</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://127.0.0.1:8000/blog" target="_blank">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero-section">
+            <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1920&h=800&fit=crop" class="d-block w-100" alt="Fashion Collection">
+                        <div class="carousel-caption">
+                            <h1 class="display-2 fw-bold mb-4" style="font-family: 'Playfair Display', serif;">Discover Your Style</h1>
+                            <p class="lead mb-4">AI-powered fashion recommendations tailored just for you</p>
+                            <button class="btn btn-warning btn-lg px-4 py-3">Explore Collections</button>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1920&h=800&fit=crop" class="d-block w-100" alt="Luxury Fashion">
+                        <div class="carousel-caption">
+                            <h1 class="display-2 fw-bold mb-4" style="font-family: 'Playfair Display', serif;">Luxury Redefined</h1>
+                            <p class="lead mb-4">Experience the pinnacle of fashion excellence</p>
+                            <button class="btn btn-warning btn-lg px-4 py-3">View Gallery</button>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1920&h=800&fit=crop" class="d-block w-100" alt="Trending Styles">
+                        <div class="carousel-caption">
+                            <h1 class="display-2 fw-bold mb-4" style="font-family: 'Playfair Display', serif;">Trending Now</h1>
+                            <p class="lead mb-4">Stay ahead with the latest fashion trends</p>
+                            <button class="btn btn-warning btn-lg px-4 py-3">Shop Now</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Trending Collections Section -->
+        <section id="collections" class="py-5 bg-light">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: #0a0a0a;">Trending Collections</h2>
+                    <p class="lead text-muted">Discover our curated selection of fashion-forward pieces</p>
+                </div>
+                
+                <div class="row g-4">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card fashion-card h-100 border-0 shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=400&h=500&fit=crop" class="card-img-top" alt="Summer Collection">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">Summer Essentials</h5>
+                                <p class="card-text text-muted">Lightweight fabrics and vibrant colors for the perfect summer wardrobe.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-warning fw-bold">From $89</span>
+                                    <button class="btn btn-outline-dark btn-sm">View Collection</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card fashion-card h-100 border-0 shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&h=500&fit=crop" class="card-img-top" alt="Business Collection">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">Business Elite</h5>
+                                <p class="card-text text-muted">Professional attire that makes a statement in the corporate world.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-warning fw-bold">From $149</span>
+                                    <button class="btn btn-outline-dark btn-sm">View Collection</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card fashion-card h-100 border-0 shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1578632292335-df3abbb0d586?w=400&h=500&fit=crop" class="card-img-top" alt="Evening Collection">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">Evening Glamour</h5>
+                                <p class="card-text text-muted">Stunning pieces for special occasions and memorable nights out.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-warning fw-bold">From $199</span>
+                                    <button class="btn btn-outline-dark btn-sm">View Collection</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card fashion-card h-100 border-0 shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1544966503-7e3c4c355e6a?w=400&h=500&fit=crop" class="card-img-top" alt="Casual Collection">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">Casual Comfort</h5>
+                                <p class="card-text text-muted">Everyday essentials that combine comfort with contemporary style.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-warning fw-bold">From $59</span>
+                                    <button class="btn btn-outline-dark btn-sm">View Collection</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card fashion-card h-100 border-0 shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=400&h=500&fit=crop" class="card-img-top" alt="Accessories Collection">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">Accessories</h5>
+                                <p class="card-text text-muted">Complete your look with our curated selection of accessories.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-warning fw-bold">From $29</span>
+                                    <button class="btn btn-outline-dark btn-sm">View Collection</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card fashion-card h-100 border-0 shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=500&fit=crop" class="card-img-top" alt="Designer Collection">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">Designer Picks</h5>
+                                <p class="card-text text-muted">Exclusive designer pieces for the fashion-forward individual.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-warning fw-bold">From $299</span>
+                                    <button class="btn btn-outline-dark btn-sm">View Collection</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section class="py-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <article>
+                            <h2 class="display-4 fw-bold mb-4" style="font-family: 'Playfair Display', serif; color: #0a0a0a;">About VogueAI</h2>
+                            <p class="lead mb-4">Revolutionizing fashion discovery through artificial intelligence and sentiment analysis.</p>
+                            <p class="mb-3">VogueAI stands at the intersection of fashion and technology, bringing you a revolutionary platform that understands your style preferences through advanced AI algorithms. Our sentiment analysis system analyzes fashion trends, customer reviews, and social media buzz to provide you with personalized recommendations that truly resonate with your unique style.</p>
+                            <p class="mb-3">Founded in 2024, we've quickly become the go-to destination for fashion enthusiasts who value both style and substance. Our platform combines the latest in machine learning technology with a deep understanding of fashion aesthetics to create an unparalleled shopping experience.</p>
+                            <p>Whether you're looking for the perfect outfit for a special occasion or simply want to stay ahead of the latest trends, VogueAI is your trusted companion in the world of fashion.</p>
+                        </article>
+                    </div>
+                    <div class="col-lg-4">
+                        <aside class="fashion-tips">
+                            <h4 class="fw-bold mb-3" style="color: #c9a84c;">Latest Fashion Tips</h4>
+                            <div class="list-group">
+                                <a href="#" class="list-group-item list-group-item-action border-0 bg-light mb-2">
+                                    <h6 class="mb-1 fw-bold">Summer 2024 Color Trends</h6>
+                                    <small class="text-muted">Discover the hottest colors this season</small>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action border-0 bg-light mb-2">
+                                    <h6 class="mb-1 fw-bold">Sustainable Fashion Guide</h6>
+                                    <small class="text-muted">Eco-friendly choices for conscious shoppers</small>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action border-0 bg-light mb-2">
+                                    <h6 class="mb-1 fw-bold">Accessory Styling Tips</h6>
+                                    <small class="text-muted">How to elevate any outfit with the right accessories</small>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action border-0 bg-light">
+                                    <h6 class="mb-1 fw-bold">Minimalist Wardrobe Essentials</h6>
+                                    <small class="text-muted">Build a capsule wardrobe that works</small>
+                                </a>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact/Newsletter Section -->
+        <section id="contact" class="py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="text-center mb-5">
+                            <h2 class="display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: #0a0a0a;">Stay Connected</h2>
+                            <p class="lead text-muted">Subscribe to our newsletter for exclusive fashion insights and AI-powered recommendations</p>
+                        </div>
+                        
+                        <form id="contactForm" class="needs-validation" novalidate>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="name" class="form-label fw-bold">Full Name</label>
+                                    <input type="text" class="form-control form-control-lg" id="name" name="name" required>
+                                    <div class="invalid-feedback">Please provide a valid name (minimum 3 characters, letters only).</div>
+                                    <div class="valid-feedback">Looks good!</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label fw-bold">Email Address</label>
+                                    <input type="email" class="form-control form-control-lg" id="email" name="email" required>
+                                    <div class="invalid-feedback">Please provide a valid email address.</div>
+                                    <div class="valid-feedback">Looks good!</div>
+                                </div>
+                                <div class="col-12">
+                                    <label for="mobile" class="form-label fw-bold">Mobile Number</label>
+                                    <input type="tel" class="form-control form-control-lg" id="mobile" name="mobile" pattern="[0-9]{10}" maxlength="10" required>
+                                    <div class="invalid-feedback">Please provide exactly 10 digits.</div>
+                                    <div class="valid-feedback">Looks good!</div>
+                                </div>
+                                <div class="col-12">
+                                    <label for="message" class="form-label fw-bold">Message (Optional)</label>
+                                    <textarea class="form-control" id="message" name="message" rows="3"></textarea>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-dark btn-lg px-5 py-3">
+                                        <i class="bi bi-send-fill me-2"></i>Subscribe Now
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: #c9a84c;">VogueAI</h5>
+                    <p class="text-light">Revolutionizing fashion discovery through artificial intelligence and sentiment analysis.</p>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#collections" class="text-light text-decoration-none">Collections</a></li>
+                        <li class="mb-2"><a href="#sentiment" class="text-light text-decoration-none">Sentiment Analysis</a></li>
+                        <li class="mb-2"><a href="http://127.0.0.1:8000/blog" class="text-light text-decoration-none" target="_blank">Fashion Blog</a></li>
+                        <li class="mb-2"><a href="#contact" class="text-light text-decoration-none">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">Follow Us</h5>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-white fs-4"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-white fs-4"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-white fs-4"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-white fs-4"><i class="bi bi-pinterest"></i></a>
+                        <a href="#" class="text-white fs-4"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-secondary">
+            <div class="text-center">
+                <p class="mb-0 text-light">&copy; 2024 VogueAI. All rights reserved. | Fashion meets AI</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Modal -->
+    <div class="modal fade" id="productModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Quick Product View</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=500&h=600&fit=crop" class="img-fluid rounded" alt="Product">
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="fw-bold mb-3">Summer Essential Dress</h4>
+                            <p class="text-muted mb-3">Perfect for warm weather occasions, this elegant dress combines comfort with sophisticated style.</p>
+                            <div class="mb-3">
+                                <span class="fs-3 fw-bold text-warning">$129</span>
+                                <span class="text-muted text-decoration-line-through ms-2">$189</span>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Size</label>
+                                <select class="form-select">
+                                    <option>XS</option>
+                                    <option>S</option>
+                                    <option>M</option>
+                                    <option>L</option>
+                                    <option>XL</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Color</label>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-secondary rounded-circle" style="width: 40px; height: 40px; background-color: #f8f9fa;"></button>
+                                    <button class="btn btn-outline-secondary rounded-circle" style="width: 40px; height: 40px; background-color: #000000;"></button>
+                                    <button class="btn btn-outline-secondary rounded-circle" style="width: 40px; height: 40px; background-color: #e8b4b8;"></button>
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-dark btn-lg">Add to Cart</button>
+                                <button class="btn btn-outline-dark">Add to Wishlist</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/validation.js"></script>
+</body>
+</html>

@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis - VogueAI Fashion Discovery</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <!-- Chart.js for analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        .sentiment-positive {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+        
+        .sentiment-negative {
+            background: linear-gradient(135deg, #dc3545 0%, #e8b4b8 100%);
+            color: white;
+        }
+        
+        .sentiment-neutral {
+            background: linear-gradient(135deg, #6c757d 0%, #adb5bd 100%);
+            color: white;
+        }
+        
+        .confidence-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #c9a84c 0%, #f4e4bc 100%);
+            transition: width 0.6s ease;
+        }
+        
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .loading-spinner.active {
+            display: block;
+        }
+        
+        .result-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+        
+        .result-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .review-history {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .review-item {
+            border-left: 4px solid #c9a84c;
+            transition: all 0.3s ease;
+        }
+        
+        .review-item:hover {
+            background-color: #f8f9fa;
+            transform: translateX(5px);
+        }
+        
+        .sentiment-badge {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-weight: 600;
+        }
+        
+        .hero-section-sentiment {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: white;
+            padding: 4rem 0;
+        }
+        
+        .feature-card {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header class="bg-dark text-white">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="index.html" style="font-family: 'Playfair Display', serif;">
+                    <i class="bi bi-gem-fill text-warning"></i> VogueAI
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#collections">Collections</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="sentiment.html">Sentiment Analysis</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://127.0.0.1:8000/blog" target="_blank">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section-sentiment">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-3 fw-bold mb-4" style="font-family: 'Playfair Display', serif;">
+                        Fashion Sentiment Analysis
+                    </h1>
+                    <p class="lead mb-4">
+                        Discover what customers really think about fashion products with our AI-powered sentiment analysis. 
+                        Get instant insights on reviews, ratings, and customer feedback.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <div class="text-center">
+                            <i class="bi bi-robot fs-2 text-warning"></i>
+                            <p class="small mt-2">AI Powered</p>
+                        </div>
+                        <div class="text-center">
+                            <i class="bi bi-lightning-charge fs-2 text-warning"></i>
+                            <p class="small mt-2">Instant Results</p>
+                        </div>
+                        <div class="text-center">
+                            <i class="bi bi-graph-up fs-2 text-warning"></i>
+                            <p class="small mt-2">Real-time Analytics</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card feature-card">
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-bold mb-3">Try It Now</h5>
+                            <p class="card-text text-muted">Enter a fashion product review below to see our AI in action!</p>
+                            <button class="btn btn-warning" onclick="scrollToAnalyzer()">
+                                <i class="bi bi-arrow-down-circle me-2"></i>Start Analyzing
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="py-5">
+        <div class="container">
+            <!-- Sentiment Analyzer Section -->
+            <section id="analyzer" class="mb-5">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card border-0 shadow-lg">
+                            <div class="card-header bg-dark text-white p-4">
+                                <h3 class="card-title mb-0 fw-bold" style="font-family: 'Playfair Display', serif;">
+                                    <i class="bi bi-cpu me-2"></i>Fashion Review Sentiment Analyzer
+                                </h3>
+                            </div>
+                            <div class="card-body p-4">
+                                <form id="sentimentForm">
+                                    <div class="mb-3">
+                                        <label for="productId" class="form-label fw-bold">Product ID</label>
+                                        <select class="form-select form-select-lg" id="productId" required>
+                                            <option value="">Select a product...</option>
+                                            <option value="1">Summer Essential Dress</option>
+                                            <option value="2">Business Elite Suit</option>
+                                            <option value="3">Evening Glamour Gown</option>
+                                            <option value="4">Casual Comfort Jeans</option>
+                                            <option value="5">Designer Handbag</option>
+                                            <option value="6">Silk Scarf Collection</option>
+                                            <option value="7">Vintage Leather Jacket</option>
+                                            <option value="8">Floral Summer Top</option>
+                                            <option value="9">Classic White Sneakers</option>
+                                            <option value="10">Elegant Watch</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="userName" class="form-label fw-bold">Your Name</label>
+                                        <input type="text" class="form-control form-control-lg" id="userName" 
+                                               placeholder="Enter your name" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="reviewText" class="form-label fw-bold">Review Text</label>
+                                        <textarea class="form-control form-control-lg" id="reviewText" rows="4" 
+                                                  placeholder="Share your thoughts about this fashion product..." required></textarea>
+                                        <div class="form-text">Minimum 10 characters. Be detailed and honest!</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="rating" class="form-label fw-bold">Rating (Optional)</label>
+                                        <div class="d-flex gap-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="rating" id="rating5" value="5">
+                                                <label class="form-check-label" for="rating5">⭐⭐⭐⭐⭐</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="rating" id="rating4" value="4">
+                                                <label class="form-check-label" for="rating4">⭐⭐⭐⭐</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="rating" id="rating3" value="3">
+                                                <label class="form-check-label" for="rating3">⭐⭐⭐</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="rating" id="rating2" value="2">
+                                                <label class="form-check-label" for="rating2">⭐⭐</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="rating" id="rating1" value="1">
+                                                <label class="form-check-label" for="rating1">⭐</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-dark btn-lg px-5">
+                                            <i class="bi bi-search me-2"></i>Analyze Sentiment
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Loading Spinner -->
+            <div id="loadingSpinner" class="loading-spinner">
+                <div class="spinner-border text-warning" role="status" style="width: 3rem; height: 3rem;">
+                    <span class="visually-hidden">Analyzing...</span>
+                </div>
+                <p class="mt-3 text-muted">AI is analyzing your review...</p>
+            </div>
+
+            <!-- Results Section -->
+            <section id="results" class="mb-5">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div id="resultCard" class="card result-card border-0 shadow-lg">
+                            <div class="card-body p-4">
+                                <div class="text-center mb-4">
+                                    <div id="sentimentIcon" class="mb-3"></div>
+                                    <h4 id="sentimentLabel" class="fw-bold mb-2"></h4>
+                                    <p id="sentimentDescription" class="text-muted"></p>
+                                </div>
+                                
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h6 class="fw-bold mb-2">Confidence Score</h6>
+                                        <div class="confidence-bar">
+                                            <div id="confidenceFill" class="confidence-fill"></div>
+                                        </div>
+                                        <small id="confidenceText" class="text-muted"></small>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="fw-bold mb-2">Processing Time</h6>
+                                        <p id="processingTime" class="mb-0"></p>
+                                    </div>
+                                </div>
+                                
+                                <div class="alert alert-light">
+                                    <h6 class="fw-bold mb-2">Review Details</h6>
+                                    <p class="mb-1"><strong>Product:</strong> <span id="reviewProduct"></span></p>
+                                    <p class="mb-1"><strong>Reviewer:</strong> <span id="reviewUser"></span></p>
+                                    <p class="mb-0"><strong>Review:</strong> <span id="reviewTextResult"></span></p>
+                                </div>
+                                
+                                <div class="text-center">
+                                    <button class="btn btn-outline-dark" onclick="resetAnalyzer()">
+                                        <i class="bi bi-arrow-clockwise me-2"></i>Analyze Another Review
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Review History Section -->
+            <section id="history" class="mb-5">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-header bg-light p-3">
+                                <h5 class="card-title mb-0 fw-bold">
+                                    <i class="bi bi-clock-history me-2"></i>Recent Analyses
+                                </h5>
+                            </div>
+                            <div class="card-body p-0">
+                                <div id="reviewHistory" class="review-history p-3">
+                                    <p class="text-muted text-center">No reviews analyzed yet. Be the first to try!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="mb-5">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-header bg-light p-3">
+                                <h5 class="card-title mb-0 fw-bold">
+                                    <i class="bi bi-graph-up me-2"></i>Live Analytics
+                                </h5>
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <canvas id="sentimentChart"></canvas>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <canvas id="productChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: #c9a84c;">VogueAI</h5>
+                    <p class="text-muted">Revolutionizing fashion discovery through artificial intelligence and sentiment analysis.</p>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.html" class="text-muted text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="sentiment.html" class="text-muted text-decoration-none">Sentiment Analysis</a></li>
+                        <li class="mb-2"><a href="http://127.0.0.1:8000/blog" class="text-muted text-decoration-none" target="_blank">Fashion Blog</a></li>
+                        <li class="mb-2"><a href="#contact" class="text-muted text-decoration-none">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">Follow Us</h5>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-white fs-4"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-white fs-4"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-white fs-4"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-white fs-4"><i class="bi bi-pinterest"></i></a>
+                        <a href="#" class="text-white fs-4"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-secondary">
+            <div class="text-center">
+                <p class="mb-0 text-muted">&copy; 2024 VogueAI. All rights reserved. | Fashion meets AI</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Global variables
+        let reviewHistory = [];
+        let sentimentChart = null;
+        let productChart = null;
+        
+        // API configuration
+        const API_BASE_URL = 'http://localhost:8001';
+        
+        // Initialize charts
+        function initCharts() {
+            // Sentiment distribution chart
+            const sentimentCtx = document.getElementById('sentimentChart').getContext('2d');
+            sentimentChart = new Chart(sentimentCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Positive', 'Negative', 'Neutral'],
+                    datasets: [{
+                        data: [0, 0, 0],
+                        backgroundColor: ['#28a745', '#dc3545', '#6c757d'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Sentiment Distribution'
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+            
+            // Product review chart
+            const productCtx = document.getElementById('productChart').getContext('2d');
+            productChart = new Chart(productCtx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Reviews Count',
+                        data: [],
+                        backgroundColor: '#c9a84c',
+                        borderColor: '#a0883a',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Reviews by Product'
+                        },
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Form submission handler
+        document.getElementById('sentimentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const productId = document.getElementById('productId').value;
+            const userName = document.getElementById('userName').value;
+            const reviewText = document.getElementById('reviewText').value;
+            const ratingElement = document.querySelector('input[name="rating"]:checked');
+            const rating = ratingElement ? parseInt(ratingElement.value) : null;
+            
+            // Validate inputs
+            if (!productId || !userName || !reviewText || reviewText.length < 10) {
+                showAlert('Please fill in all required fields with valid data.', 'warning');
+                return;
+            }
+            
+            // Show loading spinner
+            document.getElementById('loadingSpinner').classList.add('active');
+            document.getElementById('results').style.display = 'none';
+            
+            try {
+                // Send request to FastAPI
+                const response = await fetch(`${API_BASE_URL}/analyze`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        product_id: parseInt(productId),
+                        user_name: userName,
+                        review_text: reviewText,
+                        rating: rating
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                displayResults(result, productId, userName, reviewText);
+                
+                // Add to history
+                addToHistory(result, productId, userName, reviewText);
+                
+                // Update charts
+                updateCharts();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Failed to analyze sentiment. Please check if the API server is running.', 'danger');
+            } finally {
+                // Hide loading spinner
+                document.getElementById('loadingSpinner').classList.remove('active');
+            }
+        });
+        
+        // Display analysis results
+        function displayResults(result, productId, userName, reviewText) {
+            const sentiment = result.sentiment;
+            const confidence = result.confidence;
+            const label = result.label;
+            const processingTime = result.processing_time_ms;
+            
+            // Get product name
+            const productSelect = document.getElementById('productId');
+            const productName = productSelect.options[productSelect.selectedIndex].text;
+            
+            // Set sentiment icon and colors
+            const resultCard = document.getElementById('resultCard');
+            const sentimentIcon = document.getElementById('sentimentIcon');
+            const sentimentLabel = document.getElementById('sentimentLabel');
+            const sentimentDescription = document.getElementById('sentimentDescription');
+            
+            resultCard.className = 'card result-card border-0 shadow-lg';
+            
+            if (sentiment === 'POSITIVE') {
+                resultCard.classList.add('sentiment-positive');
+                sentimentIcon.innerHTML = '<i class="bi bi-emoji-smile-fill fs-1"></i>';
+                sentimentLabel.textContent = 'Positive Sentiment';
+                sentimentDescription.textContent = label;
+            } else if (sentiment === 'NEGATIVE') {
+                resultCard.classList.add('sentiment-negative');
+                sentimentIcon.innerHTML = '<i class="bi bi-emoji-frown-fill fs-1"></i>';
+                sentimentLabel.textContent = 'Negative Sentiment';
+                sentimentDescription.textContent = label;
+            } else {
+                resultCard.classList.add('sentiment-neutral');
+                sentimentIcon.innerHTML = '<i class="bi bi-emoji-neutral-fill fs-1"></i>';
+                sentimentLabel.textContent = 'Neutral Sentiment';
+                sentimentDescription.textContent = label;
+            }
+            
+            // Set confidence bar
+            const confidenceFill = document.getElementById('confidenceFill');
+            const confidenceText = document.getElementById('confidenceText');
+            confidenceFill.style.width = `${confidence * 100}%`;
+            confidenceText.textContent = `${(confidence * 100).toFixed(1)}% confidence`;
+            
+            // Set processing time
+            document.getElementById('processingTime').textContent = `${processingTime.toFixed(2)}ms`;
+            
+            // Set review details
+            document.getElementById('reviewProduct').textContent = productName;
+            document.getElementById('reviewUser').textContent = userName;
+            document.getElementById('reviewTextResult').textContent = reviewText;
+            
+            // Show results with animation
+            document.getElementById('results').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('resultCard').classList.add('show');
+            }, 100);
+        }
+        
+        // Add review to history
+        function addToHistory(result, productId, userName, reviewText) {
+            const productSelect = document.getElementById('productId');
+            const productName = productSelect.options[productSelect.selectedIndex].text;
+            
+            const historyItem = {
+                ...result,
+                productId: productId,
+                productName: productName,
+                userName: userName,
+                reviewText: reviewText,
+                timestamp: new Date().toLocaleString()
+            };
+            
+            reviewHistory.unshift(historyItem);
+            if (reviewHistory.length > 10) {
+                reviewHistory = reviewHistory.slice(0, 10);
+            }
+            
+            updateHistoryDisplay();
+        }
+        
+        // Update history display
+        function updateHistoryDisplay() {
+            const historyContainer = document.getElementById('reviewHistory');
+            
+            if (reviewHistory.length === 0) {
+                historyContainer.innerHTML = '<p class="text-muted text-center">No reviews analyzed yet. Be the first to try!</p>';
+                return;
+            }
+            
+            const historyHTML = reviewHistory.map(item => {
+                const sentimentClass = item.sentiment.toLowerCase() === 'positive' ? 'success' : 
+                                     item.sentiment.toLowerCase() === 'negative' ? 'danger' : 'secondary';
+                
+                return `
+                    <div class="review-item p-3 mb-2">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="flex-grow-1">
+                                <h6 class="fw-bold mb-1">${item.productName}</h6>
+                                <p class="mb-1 text-muted">${item.reviewText.substring(0, 100)}${item.reviewText.length > 100 ? '...' : ''}</p>
+                                <small class="text-muted">By ${item.userName} • ${item.timestamp}</small>
+                            </div>
+                            <div class="text-end">
+                                <span class="sentiment-badge badge bg-${sentimentClass}">${item.sentiment}</span>
+                                <div class="small text-muted mt-1">${(item.confidence * 100).toFixed(1)}%</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            historyContainer.innerHTML = historyHTML;
+        }
+        
+        // Update charts with current data
+        function updateCharts() {
+            if (!sentimentChart || !productChart) return;
+            
+            // Update sentiment chart
+            const sentimentCounts = { POSITIVE: 0, NEGATIVE: 0, NEUTRAL: 0 };
+            reviewHistory.forEach(item => {
+                sentimentCounts[item.sentiment]++;
+            });
+            
+            sentimentChart.data.datasets[0].data = [
+                sentimentCounts.POSITIVE,
+                sentimentCounts.NEGATIVE,
+                sentimentCounts.NEUTRAL
+            ];
+            sentimentChart.update();
+            
+            // Update product chart
+            const productCounts = {};
+            reviewHistory.forEach(item => {
+                productCounts[item.productName] = (productCounts[item.productName] || 0) + 1;
+            });
+            
+            const sortedProducts = Object.entries(productCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5);
+            
+            productChart.data.labels = sortedProducts.map(p => p[0]);
+            productChart.data.datasets[0].data = sortedProducts.map(p => p[1]);
+            productChart.update();
+        }
+        
+        // Reset analyzer
+        function resetAnalyzer() {
+            document.getElementById('sentimentForm').reset();
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('resultCard').classList.remove('show');
+            document.getElementById('loadingSpinner').classList.remove('active');
+            
+            // Scroll to form
+            document.getElementById('analyzer').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Scroll to analyzer
+        function scrollToAnalyzer() {
+            document.getElementById('analyzer').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Show alert message
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            const container = document.querySelector('.container');
+            container.insertBefore(alertDiv, container.firstChild);
+            
+            // Auto dismiss after 5 seconds
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+        
+        // Auto-refresh analytics every 30 seconds
+        function startAutoRefresh() {
+            setInterval(async () => {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/analytics/sentiment-summary`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        // Update charts with server data if available
+                        console.log('Analytics refreshed:', data);
+                    }
+                } catch (error) {
+                    console.log('Could not refresh analytics:', error);
+                }
+            }, 30000);
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initCharts();
+            startAutoRefresh();
+        });
+    </script>
+</body>
+</html>

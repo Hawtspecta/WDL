@@ -1,0 +1,215 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}My Bookmarks - VogueAI Blog{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="fw-bold">My Bookmarks</h1>
+                <a href="{% url 'blog:post_list' %}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>Back to Blog
+                </a>
+            </div>
+
+            {% if bookmarks %}
+                <div class="row g-4">
+                    {% for bookmark in bookmarks %}
+                        <div class="col-md-6">
+                            <article class="card blog-card h-100">
+                                {% if bookmark.post.image %}
+                                    <img src="{{ bookmark.post.image.url }}" class="card-img-top" alt="{{ bookmark.post.title }}">
+                                {% else %}
+                                    {% if bookmark.post.slug|slice:":1" == "a" %}
+                                        <img src="https://picsum.photos/400/250?random=1" class="card-img-top" alt="{{ bookmark.post.title }}">
+                                    {% elif bookmark.post.slug|slice:":1" == "b" %}
+                                        <img src="https://picsum.photos/400/250?random=2" class="card-img-top" alt="{{ bookmark.post.title }}">
+                                    {% elif bookmark.post.slug|slice:":1" == "c" %}
+                                        <img src="https://picsum.photos/400/250?random=3" class="card-img-top" alt="{{ bookmark.post.title }}">
+                                    {% elif bookmark.post.slug|slice:":1" == "d" %}
+                                        <img src="https://picsum.photos/400/250?random=4" class="card-img-top" alt="{{ bookmark.post.title }}">
+                                    {% else %}
+                                        <img src="https://picsum.photos/400/250?random=5" class="card-img-top" alt="{{ bookmark.post.title }}">
+                                    {% endif %}
+                                {% endif %}
+                                
+                                <div class="card-body">
+                                    <div class="mb-2">
+                                        <span class="category-badge">{{ bookmark.post.category.name }}</span>
+                                        <span class="bookmark-badge">
+                                            <i class="bi bi-bookmark-fill me-1"></i>Bookmarked
+                                        </span>
+                                    </div>
+                                    <h5 class="card-title fw-bold">
+                                        <a href="{% url 'blog:post_detail' bookmark.post.slug %}" class="text-decoration-none text-dark">
+                                            {{ bookmark.post.title }}
+                                        </a>
+                                    </h5>
+                                    <p class="card-text text-muted">{{ bookmark.post.content|striptags|truncatewords:20 }}</p>
+                                    
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <small class="text-muted">
+                                            <i class="bi bi-calendar me-1"></i>{{ bookmark.post.published_at|date:"M d, Y" }}
+                                            <i class="bi bi-eye ms-3 me-1"></i>{{ bookmark.post.views }}
+                                        </small>
+                                        <small class="text-muted">
+                                            <i class="bi bi-bookmark me-1"></i>Bookmarked {{ bookmark.created_at|date:"M d, Y" }}
+                                        </small>
+                                    </div>
+                                </div>
+                                
+                                <div class="card-footer bg-transparent">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">
+                                            <i class="bi bi-person me-1"></i>{{ bookmark.post.author.username }}
+                                        </small>
+                                        <form method="post" action="{% url 'blog:remove_bookmark' bookmark.post.slug %}" class="d-inline">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to remove this bookmark?')">
+                                                <i class="bi bi-bookmark-dash me-1"></i>Remove
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if is_paginated %}
+                    <nav aria-label="Page navigation" class="mt-5">
+                        <ul class="pagination justify-content-center">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                                </li>
+                            {% endif %}
+                            
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if page_obj.number == num %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ num }}</span>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                {% endif %}
+
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-bookmark display-1 text-muted"></i>
+                    <h3 class="mt-3">No bookmarks yet</h3>
+                    <p class="text-muted">You haven't bookmarked any posts. Start exploring and bookmark your favorite articles!</p>
+                    <a href="{% url 'blog:post_list' %}" class="btn btn-primary">
+                        <i class="bi bi-search me-2"></i>Explore Posts
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Bookmark Stats</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <div class="stat-item">
+                                <h4 class="text-primary">{{ total_bookmarks }}</h4>
+                                <small class="text-muted">Total Bookmarks</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-item">
+                                <h4 class="text-success">{{ recent_bookmarks }}</h4>
+                                <small class="text-muted">This Week</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Popular Categories</h5>
+                </div>
+                <div class="card-body">
+                    {% if categories %}
+                        {% for category in categories %}
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span>{{ category.name }}</span>
+                                <span class="badge bg-primary">{{ category.count }}</span>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">No categories found</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'blog:post_list' %}" class="btn btn-primary">
+                            <i class="bi bi-list me-2"></i>Browse All Posts
+                        </a>
+                        <a href="{% url 'blog:my_posts' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-file-earmark-text me-2"></i>My Posts
+                        </a>
+                        <button onclick="exportBookmarks()" class="btn btn-outline-info">
+                            <i class="bi bi-download me-2"></i>Export Bookmarks
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.bookmark-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    background-color: #e7f3ff;
+    color: #0066cc;
+}
+
+.stat-item {
+    padding: 0.5rem;
+}
+
+.blog-card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.blog-card:hover {
+    transform: translateY(-2px);
+}
+</style>
+
+<script>
+function exportBookmarks() {
+    alert('Bookmark export feature coming soon!');
+}
+</script>
+{% endblock %}

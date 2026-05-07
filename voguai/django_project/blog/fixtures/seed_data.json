@@ -1,0 +1,80 @@
+[
+  {
+    "model": "blog.category",
+    "pk": 1,
+    "fields": {
+      "name": "Fashion Trends",
+      "slug": "fashion-trends",
+      "description": "Latest fashion trends and style insights",
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "blog.category",
+    "pk": 2,
+    "fields": {
+      "name": "Style Tips",
+      "slug": "style-tips",
+      "description": "Expert style advice and fashion tips",
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "blog.category",
+    "pk": 3,
+    "fields": {
+      "name": "Sustainable Fashion",
+      "slug": "sustainable-fashion",
+      "description": "Eco-friendly and sustainable fashion choices",
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "blog.tag",
+    "pk": 1,
+    "fields": {
+      "name": "minimalist",
+      "slug": "minimalist",
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "blog.tag",
+    "pk": 2,
+    "fields": {
+      "name": "vintage",
+      "slug": "vintage",
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "blog.tag",
+    "pk": 3,
+    "fields": {
+      "name": "streetwear",
+      "slug": "streetwear",
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "blog.tag",
+    "pk": 4,
+    "fields": {
+      "name": "luxury",
+      "slug": "luxury",
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "blog.tag",
+    "pk": 5,
+    "fields": {
+      "name": "casual",
+      "slug": "casual",
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  }
+]

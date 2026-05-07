@@ -1,0 +1,364 @@
+{% extends "blog/base.html" %}
+
+{% block title %}{{ title }} - VogueAI Blog{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-dark text-white p-4">
+                    <h2 class="mb-0 fw-bold" style="font-family: 'Playfair Display', serif;">
+                        <i class="bi bi-pencil-square me-2"></i>{{ action }} Post
+                    </h2>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Basic Information -->
+                        <div class="row mb-4">
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <label for="{{ form.title.id_for_label }}" class="form-label fw-bold">
+                                        Post Title <span class="text-danger">*</span>
+                                    </label>
+                                    {{ form.title }}
+                                    {% if form.title.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.title.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="{{ form.slug.id_for_label }}" class="form-label fw-bold">
+                                        URL Slug
+                                    </label>
+                                    {{ form.slug }}
+                                    <small class="form-text text-muted">Leave blank to auto-generate from title</small>
+                                    {% if form.slug.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.slug.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.category.id_for_label }}" class="form-label fw-bold">
+                                        Category <span class="text-danger">*</span>
+                                    </label>
+                                    {{ form.category }}
+                                    {% if form.category.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.category.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.read_time.id_for_label }}" class="form-label fw-bold">
+                                        Reading Time (minutes)
+                                    </label>
+                                    {{ form.read_time }}
+                                    {% if form.read_time.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.read_time.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Content Section -->
+                        <div class="mb-4">
+                            <label for="{{ form.excerpt.id_for_label }}" class="form-label fw-bold">
+                                Excerpt
+                            </label>
+                            {{ form.excerpt }}
+                            <small class="form-text text-muted">Brief description (max 300 characters). Will be auto-generated if left empty.</small>
+                            {% if form.excerpt.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.excerpt.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="{{ form.content.id_for_label }}" class="form-label fw-bold">
+                                Content <span class="text-danger">*</span>
+                            </label>
+                            {{ form.content }}
+                            {% if form.content.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.content.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Media Section -->
+                        <div class="mb-4">
+                            <label for="{{ form.image.id_for_label }}" class="form-label fw-bold">
+                                Featured Image
+                            </label>
+                            {{ form.image }}
+                            <small class="form-text text-muted">Upload a high-quality image for your post (recommended: 1200x630px)</small>
+                            {% if form.image.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.image.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            
+                            {% if form.instance.image %}
+                                <div class="mt-3">
+                                    <p class="mb-2">Current image:</p>
+                                    <img src="{{ form.instance.image.url }}" class="img-thumbnail" style="max-height: 200px;" alt="Current image">
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Tags Section -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Tags</label>
+                            
+                            <!-- Existing Tags -->
+                            <div class="mb-3">
+                                <p class="mb-2">Select existing tags:</p>
+                                {{ form.tags }}
+                            </div>
+                            
+                            <!-- New Tags -->
+                            <div>
+                                <label for="{{ form.new_tags.id_for_label }}" class="form-label">
+                                    Add new tags:
+                                </label>
+                                {{ form.new_tags }}
+                                <small class="form-text text-muted">Separate multiple tags with commas</small>
+                            </div>
+                        </div>
+
+                        <!-- Publication Settings -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.status.id_for_label }}" class="form-label fw-bold">
+                                        Status <span class="text-danger">*</span>
+                                    </label>
+                                    {{ form.status }}
+                                    {% if form.status.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.status.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <small class="form-text text-muted">
+                                        <strong>Draft:</strong> Not visible to public<br>
+                                        <strong>Published:</strong> Visible to everyone
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Additional Options</label>
+                                    <div class="form-check">
+                                        {{ form.featured }}
+                                        <label class="form-check-label" for="{{ form.featured.id_for_label }}">
+                                            Featured Post
+                                        </label>
+                                        <small class="form-text text-muted d-block">Featured posts appear on the homepage</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="{% url 'blog:post_list' %}" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-left me-2"></i>Cancel
+                                </a>
+                            </div>
+                            <div>
+                                {% if form.instance.pk %}
+                                    <a href="{% url 'blog:post_detail' form.instance.slug %}" 
+                                       class="btn btn-outline-secondary me-2">
+                                        <i class="bi bi-eye me-2"></i>View Post
+                                    </a>
+                                {% endif %}
+                                <button type="submit" class="btn btn-dark btn-lg">
+                                    <i class="bi bi-check-circle me-2"></i>{{ action }} Post
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Writing Tips -->
+            <div class="card border-0 bg-light mt-4">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3">
+                        <i class="bi bi-lightbulb me-2"></i>Writing Tips
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="bi bi-check-circle text-success me-2"></i>
+                                    Use compelling headlines that grab attention
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-check-circle text-success me-2"></i>
+                                    Break up content with headings and subheadings
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-check-circle text-success me-2"></i>
+                                    Include relevant images to enhance readability
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="bi bi-check-circle text-success me-2"></i>
+                                    Use tags to improve discoverability
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-check-circle text-success me-2"></i>
+                                    Write engaging excerpts to attract readers
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-check-circle text-success me-2"></i>
+                                    Proofread before publishing
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Rich Text Editor Enhancement -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-save draft functionality
+    let autoSaveTimer;
+    const form = document.querySelector('form');
+    const saveStatus = document.createElement('div');
+    saveStatus.className = 'alert alert-info alert-dismissible fade show position-fixed';
+    saveStatus.style.cssText = 'top: 20px; right: 20px; z-index: 1050; max-width: 300px;';
+    saveStatus.innerHTML = '<small>Draft auto-saved</small>';
+    document.body.appendChild(saveStatus);
+    saveStatus.style.display = 'none';
+
+    // Auto-save every 30 seconds
+    function autoSave() {
+        const formData = new FormData(form);
+        // In a real implementation, you would send this to an auto-save endpoint
+        console.log('Auto-saving draft...');
+        
+        // Show save status
+        saveStatus.style.display = 'block';
+        setTimeout(() => {
+            saveStatus.style.display = 'none';
+        }, 2000);
+    }
+
+    // Set up auto-save
+    form.addEventListener('input', function() {
+        clearTimeout(autoSaveTimer);
+        autoSaveTimer = setTimeout(autoSave, 30000); // 30 seconds
+    });
+
+    // Character count for title
+    const titleField = document.getElementById('{{ form.title.id_for_label }}');
+    const titleCount = document.createElement('small');
+    titleCount.className = 'form-text text-muted';
+    titleField.parentNode.appendChild(titleCount);
+
+    titleField.addEventListener('input', function() {
+        const count = this.value.length;
+        titleCount.textContent = `${count} characters`;
+        if (count > 200) {
+            titleCount.className = 'form-text text-warning';
+        } else {
+            titleCount.className = 'form-text text-muted';
+        }
+    });
+
+    // Character count for excerpt
+    const excerptField = document.getElementById('{{ form.excerpt.id_for_label }}');
+    const excerptCount = document.createElement('small');
+    excerptCount.className = 'form-text text-muted';
+    excerptField.parentNode.appendChild(excerptCount);
+
+    excerptField.addEventListener('input', function() {
+        const count = this.value.length;
+        const remaining = 300 - count;
+        excerptCount.textContent = `${remaining} characters remaining`;
+        if (remaining < 0) {
+            excerptCount.className = 'form-text text-danger';
+        } else if (remaining < 50) {
+            excerptCount.className = 'form-text text-warning';
+        } else {
+            excerptCount.className = 'form-text text-muted';
+        }
+    });
+
+    // Auto-generate slug from title
+    titleField.addEventListener('blur', function() {
+        const slugField = document.getElementById('{{ form.slug.id_for_label }}');
+        if (!slugField.value && this.value) {
+            // Simple slug generation
+            const slug = this.value
+                .toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .trim('-');
+            slugField.value = slug;
+        }
+    });
+
+    // Confirm before leaving if form has changes
+    let formChanged = false;
+    form.addEventListener('change', function() {
+        formChanged = true;
+    });
+
+    window.addEventListener('beforeunload', function(e) {
+        if (formChanged) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
+    });
+
+    form.addEventListener('submit', function() {
+        formChanged = false;
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,411 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} - VogueAI Blog{% endblock %}
+
+{% block extra_css %}
+<style>
+    .post-header {
+        background: linear-gradient(135deg, var(--primary-black) 0%, #1a1a1a 100%);
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 3rem;
+    }
+    
+    .post-content {
+        font-size: 1.1rem;
+        line-height: 1.8;
+    }
+    
+    .post-content h2, .post-content h3 {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: var(--primary-black);
+    }
+    
+    .post-content img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 0.5rem;
+        margin: 1.5rem 0;
+    }
+    
+    .author-bio {
+        background: #f8f9fa;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        margin-top: 2rem;
+    }
+    
+    .related-posts .card {
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    
+    .related-posts .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .bookmark-btn {
+        transition: all 0.3s ease;
+    }
+    
+    .bookmark-btn.bookmarked {
+        background-color: var(--primary-gold);
+        color: var(--primary-black);
+    }
+    
+    .share-buttons .btn {
+        margin: 0 0.25rem;
+        transition: all 0.3s ease;
+    }
+    
+    .share-buttons .btn:hover {
+        transform: translateY(-2px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Post Header -->
+<div class="post-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto text-center">
+                <div class="mb-3">
+                    <span class="category-badge">{{ post.category.name }}</span>
+                    {% if post.featured %}
+                        <span class="featured-badge ms-2">Featured</span>
+                    {% endif %}
+                </div>
+                <h1 class="display-4 fw-bold mb-4" style="font-family: 'Playfair Display', serif;">
+                    {{ post.title }}
+                </h1>
+                <div class="d-flex justify-content-center align-items-center gap-4 text-white-50">
+                    <span><i class="bi bi-person me-2"></i>{{ post.author.username }}</span>
+                    <span><i class="bi bi-calendar me-2"></i>{{ post.published_at|date:"F d, Y" }}</span>
+                    <span><i class="bi bi-clock me-2"></i>{{ post.read_time }} min read</span>
+                    <span><i class="bi bi-eye me-2"></i>{{ post.views }} views</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <!-- Featured Image -->
+            <div class="mb-4">
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" class="img-fluid rounded" alt="{{ post.title }}">
+                {% else %}
+                    {% if post.slug|slice:":1" == "a" %}
+                        <img src="https://picsum.photos/800/400?random=1" class="img-fluid rounded" alt="{{ post.title }}">
+                    {% elif post.slug|slice:":1" == "b" %}
+                        <img src="https://picsum.photos/800/400?random=2" class="img-fluid rounded" alt="{{ post.title }}">
+                    {% elif post.slug|slice:":1" == "c" %}
+                        <img src="https://picsum.photos/800/400?random=3" class="img-fluid rounded" alt="{{ post.title }}">
+                    {% elif post.slug|slice:":1" == "d" %}
+                        <img src="https://picsum.photos/800/400?random=4" class="img-fluid rounded" alt="{{ post.title }}">
+                    {% else %}
+                        <img src="https://picsum.photos/800/400?random=5" class="img-fluid rounded" alt="{{ post.title }}">
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <!-- Post Content -->
+            <article class="post-content">
+                {{ post.content|safe }}
+            </article>
+
+            <!-- Tags -->
+            {% if post.tags.all %}
+                <div class="mt-4 pt-4 border-top">
+                    <h5 class="mb-3">Tags</h5>
+                    <div class="tag-cloud">
+                        {% for tag in post.tags.all %}
+                            <a href="?tag={{ tag.slug }}" class="tag">{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Share & Bookmark -->
+            <div class="mt-4 pt-4 border-top">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="share-buttons">
+                        <h5 class="mb-3">Share this post</h5>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+                           class="btn btn-outline-primary btn-sm" target="_blank">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ post.title }}" 
+                           class="btn btn-outline-info btn-sm" target="_blank">
+                            <i class="bi bi-twitter"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" 
+                           class="btn btn-outline-primary btn-sm" target="_blank">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                        <a href="https://pinterest.com/pin/create/button/?url={{ request.build_absolute_uri }}&description={{ post.title }}" 
+                           class="btn btn-outline-danger btn-sm" target="_blank">
+                            <i class="bi bi-pinterest"></i>
+                        </a>
+                    </div>
+                    
+                    {% if user.is_authenticated %}
+                        <button class="btn bookmark-btn {% if is_bookmarked %}bookmarked{% endif %}" 
+                                onclick="toggleBookmark('{{ post.slug }}')">
+                            <i class="bi bi-bookmark{% if is_bookmarked %}-fill{% endif %} me-2"></i>
+                            {% if is_bookmarked %}Bookmarked{% else %}Bookmark{% endif %}
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Author Bio -->
+            <div class="author-bio">
+                <div class="d-flex align-items-center">
+                    <div class="me-3">
+                        <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center" 
+                             style="width: 60px; height: 60px; font-size: 1.5rem; font-weight: bold;">
+                            {{ post.author.username|first|upper }}
+                        </div>
+                    </div>
+                    <div>
+                        <h5 class="mb-1">{{ post.author.get_full_name|default:post.author.username }}</h5>
+                        <p class="text-muted mb-0">Fashion enthusiast and style expert. Sharing insights on the latest trends and timeless fashion advice.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="comments-section mt-5">
+                <h3 class="mb-4">Comments ({{ comments.count }})</h3>
+                
+                <!-- Comment Form -->
+                {% if user.is_authenticated %}
+                    <div class="comment-form">
+                        <h5 class="mb-3">Leave a Comment</h5>
+                        <form method="POST" action="{% url 'blog:add_comment' post.slug %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <textarea name="content" class="form-control" rows="4" 
+                                          placeholder="Share your thoughts on this post..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-dark">
+                                <i class="bi bi-send me-2"></i>Post Comment
+                            </button>
+                        </form>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <a href="/admin/login/">Login</a> to leave a comment.
+                    </div>
+                {% endif %}
+
+                <!-- Comments List -->
+                <div class="mt-4">
+                    {% for comment in comments %}
+                        <div class="comment mb-4">
+                            <div class="d-flex align-items-start">
+                                <div class="me-3">
+                                    <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center" 
+                                         style="width: 40px; height: 40px; font-size: 1rem;">
+                                        {{ comment.author.username|first|upper }}
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h6 class="mb-0">{{ comment.author.get_full_name|default:comment.author.username }}</h6>
+                                        <small class="text-muted">{{ comment.created_at|date:"M d, Y H:i" }}</small>
+                                    </div>
+                                    <p class="mb-2">{{ comment.content }}</p>
+                                    
+                                    <!-- Reply Button -->
+                                    {% if user.is_authenticated %}
+                                        <button class="btn btn-sm btn-outline-dark" 
+                                                onclick="showReplyForm('{{ comment.id }}')">
+                                            <i class="bi bi-reply me-1"></i>Reply
+                                        </button>
+                                    {% endif %}
+                                    
+                                    <!-- Reply Form -->
+                                    <div id="reply-form-{{ comment.id }}" class="mt-3" style="display: none;">
+                                        <form method="POST" action="{% url 'blog:add_comment' post.slug %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                                            <div class="mb-2">
+                                                <textarea name="content" class="form-control" rows="3" 
+                                                          placeholder="Write your reply..." required></textarea>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <button type="submit" class="btn btn-sm btn-dark">Reply</button>
+                                                <button type="button" class="btn btn-sm btn-secondary" 
+                                                        onclick="hideReplyForm('{{ comment.id }}')">Cancel</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    
+                                    <!-- Replies -->
+                                    {% for reply in comment.get_replies %}
+                                        <div class="comment ms-4 mt-3">
+                                            <div class="d-flex align-items-start">
+                                                <div class="me-2">
+                                                    <div class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center" 
+                                                         style="width: 30px; height: 30px; font-size: 0.8rem;">
+                                                        {{ reply.author.username|first|upper }}
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                        <h6 class="mb-0 small">{{ reply.author.get_full_name|default:reply.author.username }}</h6>
+                                                        <small class="text-muted">{{ reply.created_at|date:"M d, Y H:i" }}</small>
+                                                    </div>
+                                                    <p class="mb-0 small">{{ reply.content }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="text-muted">No comments yet. Be the first to share your thoughts!</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Table of Contents -->
+            <div class="sidebar-widget sticky-top" style="top: 20px;">
+                <h5><i class="bi bi-list-ul me-2"></i>Table of Contents</h5>
+                <nav id="table-of-contents">
+                    <!-- Will be populated by JavaScript -->
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Related Posts -->
+{% if related_posts %}
+<section class="py-5 bg-light mt-5">
+    <div class="container">
+        <h2 class="text-center mb-5 fw-bold" style="font-family: 'Playfair Display', serif;">Related Posts</h2>
+        <div class="row g-4 related-posts">
+            {% for related_post in related_posts %}
+                <div class="col-md-4">
+                    <div class="card">
+                        {% if related_post.image %}
+                            <img src="{{ related_post.image.url }}" class="card-img-top" alt="{{ related_post.title }}" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <img src="https://picsum.photos/400/200?random={{ forloop.counter }}" class="card-img-top" alt="{{ related_post.title }}" style="height: 200px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body">
+                            <span class="category-badge">{{ related_post.category.name }}</span>
+                            <h6 class="card-title fw-bold mt-2">
+                                <a href="{% url 'blog:post_detail' related_post.slug %}" class="text-decoration-none text-dark">
+                                    {{ related_post.title|truncatewords:8 }}
+                                </a>
+                            </h6>
+                            <small class="text-muted">
+                                <i class="bi bi-calendar me-1"></i>{{ related_post.published_at|date:"M d, Y" }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Toggle bookmark function
+async function toggleBookmark(slug) {
+    try {
+        const response = await fetch(`/blog/post/${slug}/bookmark/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        });
+        
+        const result = await response.json();
+        const btn = document.querySelector('.bookmark-btn');
+        
+        if (result.is_bookmarked) {
+            btn.classList.add('bookmarked');
+            btn.innerHTML = '<i class="bi bi-bookmark-fill me-2"></i>Bookmarked';
+        } else {
+            btn.classList.remove('bookmarked');
+            btn.innerHTML = '<i class="bi bi-bookmark me-2"></i>Bookmark';
+        }
+        
+        showAlert(result.message, 'success');
+    } catch (error) {
+        showAlert('Error updating bookmark', 'danger');
+    }
+}
+
+// Show/hide reply forms
+function showReplyForm(commentId) {
+    document.getElementById(`reply-form-${commentId}`).style.display = 'block';
+}
+
+function hideReplyForm(commentId) {
+    document.getElementById(`reply-form-${commentId}`).style.display = 'none';
+}
+
+// Generate table of contents
+document.addEventListener('DOMContentLoaded', function() {
+    const content = document.querySelector('.post-content');
+    const headings = content.querySelectorAll('h2, h3');
+    const toc = document.getElementById('table-of-contents');
+    
+    if (headings.length > 0) {
+        let tocHTML = '<ul class="list-unstyled">';
+        headings.forEach((heading, index) => {
+            const id = `heading-${index}`;
+            heading.id = id;
+            const level = parseInt(heading.tagName.substring(1));
+            const indent = level > 2 ? 'ms-3' : '';
+            
+            tocHTML += `
+                <li class="${indent}">
+                    <a href="#${id}" class="text-decoration-none text-muted d-block py-1">
+                        ${heading.textContent}
+                    </a>
+                </li>
+            `;
+        });
+        tocHTML += '</ul>';
+        toc.innerHTML = tocHTML;
+    } else {
+        toc.innerHTML = '<p class="text-muted small">No headings found</p>';
+    }
+    
+    // Smooth scrolling for TOC links
+    document.querySelectorAll('#table-of-contents a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

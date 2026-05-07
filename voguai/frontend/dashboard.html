@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VogueAI Analytics Dashboard</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        :root {
+            --primary-black: #0a0a0a;
+            --primary-gold: #c9a84c;
+            --primary-white: #ffffff;
+            --primary-rose: #e8b4b8;
+            --success-green: #28a745;
+            --danger-red: #dc3545;
+            --warning-yellow: #ffc107;
+            --info-blue: #17a2b8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8f9fa;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-black) 0%, #1a1a1a 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-black);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .chart-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-black);
+            margin-bottom: 1.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .sentiment-positive {
+            background: linear-gradient(135deg, var(--success-green) 0%, #20c997 100%);
+            color: white;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+        }
+
+        .sentiment-negative {
+            background: linear-gradient(135deg, var(--danger-red) 0%, var(--primary-rose) 100%);
+            color: white;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+        }
+
+        .sentiment-neutral {
+            background: linear-gradient(135deg, #6c757d 0%, #adb5bd 100%);
+            color: white;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+        }
+
+        .review-item {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary-gold);
+            transition: all 0.3s ease;
+        }
+
+        .review-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-tag {
+            background: var(--primary-gold);
+            color: var(--primary-black);
+            border-radius: 1rem;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .confidence-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-gold) 0%, #f4e4bc 100%);
+            transition: width 0.6s ease;
+        }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading-spinner.active {
+            display: block;
+        }
+
+        .refresh-btn {
+            background: var(--primary-gold);
+            color: var(--primary-black);
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            background: var(--primary-white);
+            color: var(--primary-black);
+            transform: translateY(-2px);
+        }
+
+        .date-filter {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .metric-change {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+
+        .metric-up {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .metric-down {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .metric-neutral {
+            background: #fff3cd;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1 class="display-4 fw-bold mb-0" style="font-family: 'Playfair Display', serif;">
+                        <i class="bi bi-graph-up me-3"></i>VogueAI Analytics Dashboard
+                    </h1>
+                    <p class="lead mb-0">Real-time fashion sentiment analysis and insights</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <button class="refresh-btn me-2" onclick="refreshDashboard()">
+                        <i class="bi bi-arrow-clockwise me-2"></i>Refresh Data
+                    </button>
+                    <button class="btn btn-outline-light" onclick="exportData()">
+                        <i class="bi bi-download me-2"></i>Export Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Date Filter -->
+        <div class="date-filter">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h5 class="mb-0">Filter by Date Range</h5>
+                    <small class="text-muted">Select a time period to analyze sentiment trends</small>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-select" id="dateRange" onchange="updateDateRange()">
+                        <option value="today">Today</option>
+                        <option value="week" selected>Last 7 Days</option>
+                        <option value="month">Last 30 Days</option>
+                        <option value="quarter">Last 90 Days</option>
+                        <option value="year">Last Year</option>
+                        <option value="all">All Time</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="row mb-4">
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="stat-number" id="totalReviews">0</div>
+                            <div class="stat-label">Total Reviews</div>
+                            <div class="metric-change metric-neutral mt-2">
+                                <i class="bi bi-dash me-1"></i>No change
+                            </div>
+                        </div>
+                        <div class="text-primary fs-2">
+                            <i class="bi bi-chat-dots"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="stat-number" id="avgConfidence">0%</div>
+                            <div class="stat-label">Avg Confidence</div>
+                            <div class="metric-change metric-up mt-2">
+                                <i class="bi bi-arrow-up me-1"></i>+5.2%
+                            </div>
+                        </div>
+                        <div class="text-success fs-2">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="stat-number" id="positiveRate">0%</div>
+                            <div class="stat-label">Positive Rate</div>
+                            <div class="metric-change metric-up mt-2">
+                                <i class="bi bi-arrow-up me-1"></i>+3.1%
+                            </div>
+                        </div>
+                        <div class="text-success fs-2">
+                            <i class="bi bi-emoji-smile"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="stat-number" id="topProduct">-</div>
+                            <div class="stat-label">Top Product</div>
+                            <div class="metric-change metric-neutral mt-2">
+                                <i class="bi bi-dash me-1"></i>Stable
+                            </div>
+                        </div>
+                        <div class="text-warning fs-2">
+                            <i class="bi bi-trophy"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row mb-4">
+            <!-- Sentiment Distribution -->
+            <div class="col-lg-6 mb-4">
+                <div class="chart-container">
+                    <h3 class="chart-title">Sentiment Distribution</h3>
+                    <canvas id="sentimentChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Sentiment Over Time -->
+            <div class="col-lg-6 mb-4">
+                <div class="chart-container">
+                    <h3 class="chart-title">Sentiment Trends</h3>
+                    <canvas id="trendsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Performance -->
+        <div class="row mb-4">
+            <div class="col-lg-8 mb-4">
+                <div class="chart-container">
+                    <h3 class="chart-title">Product Performance</h3>
+                    <canvas id="productChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Confidence Distribution -->
+            <div class="col-lg-4 mb-4">
+                <div class="chart-container">
+                    <h3 class="chart-title">Confidence Levels</h3>
+                    <canvas id="confidenceChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Reviews -->
+        <div class="row">
+            <div class="col-12">
+                <div class="chart-container">
+                    <h3 class="chart-title">Recent Reviews</h3>
+                    <div class="loading-spinner" id="reviewsLoading">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading recent reviews...</p>
+                    </div>
+                    <div id="reviewsContainer">
+                        <!-- Reviews will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">© 2024 VogueAI Analytics Dashboard | Real-time Fashion Sentiment Analysis</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Dashboard JavaScript -->
+    <script>
+        // Global variables
+        let sentimentChart = null;
+        let trendsChart = null;
+        let productChart = null;
+        let confidenceChart = null;
+        let currentData = {};
+
+        // API configuration
+        const API_BASE_URL = 'http://localhost:8001';
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            loadDashboardData();
+            
+            // Auto-refresh every 30 seconds
+            setInterval(loadDashboardData, 30000);
+        });
+
+        // Initialize all charts
+        function initializeCharts() {
+            // Sentiment Distribution Chart
+            const sentimentCtx = document.getElementById('sentimentChart').getContext('2d');
+            sentimentChart = new Chart(sentimentCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Positive', 'Negative', 'Neutral'],
+                    datasets: [{
+                        data: [0, 0, 0],
+                        backgroundColor: [
+                            '#28a745',
+                            '#dc3545',
+                            '#6c757d'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Sentiment Trends Chart
+            const trendsCtx = document.getElementById('trendsChart').getContext('2d');
+            trendsChart = new Chart(trendsCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Positive',
+                        data: [],
+                        borderColor: '#28a745',
+                        backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'Negative',
+                        data: [],
+                        borderColor: '#dc3545',
+                        backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'Neutral',
+                        data: [],
+                        borderColor: '#6c757d',
+                        backgroundColor: 'rgba(108, 117, 125, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Product Performance Chart
+            const productCtx = document.getElementById('productChart').getContext('2d');
+            productChart = new Chart(productCtx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Reviews',
+                        data: [],
+                        backgroundColor: '#c9a84c',
+                        borderColor: '#a0883a',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Confidence Distribution Chart
+            const confidenceCtx = document.getElementById('confidenceChart').getContext('2d');
+            confidenceChart = new Chart(confidenceCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['0-50%', '51-70%', '71-85%', '86-95%', '96-100%'],
+                    datasets: [{
+                        label: 'Reviews',
+                        data: [0, 0, 0, 0, 0],
+                        backgroundColor: [
+                            '#dc3545',
+                            '#ffc107',
+                            '#17a2b8',
+                            '#28a745',
+                            '#155724'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Load dashboard data from API
+        async function loadDashboardData() {
+            try {
+                // Show loading spinner
+                document.getElementById('reviewsLoading').classList.add('active');
+                
+                // Fetch data from FastAPI
+                const [analyticsResponse, reviewsResponse] = await Promise.all([
+                    fetch(`${API_BASE_URL}/analytics/sentiment-summary`),
+                    fetch(`${API_BASE_URL}/reviews`)
+                ]);
+
+                if (analyticsResponse.ok && reviewsResponse.ok) {
+                    const analytics = await analyticsResponse.json();
+                    const reviews = await reviewsResponse.json();
+                    
+                    currentData = { analytics, reviews };
+                    updateDashboard(analytics, reviews);
+                } else {
+                    throw new Error('Failed to fetch data from API');
+                }
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                showAlert('Failed to load dashboard data. Please check if the API server is running.', 'danger');
+            } finally {
+                // Hide loading spinner
+                document.getElementById('reviewsLoading').classList.remove('active');
+            }
+        }
+
+        // Update dashboard with new data
+        function updateDashboard(analytics, reviews) {
+            // Update key metrics
+            document.getElementById('totalReviews').textContent = analytics.total_reviews || 0;
+            document.getElementById('avgConfidence').textContent = 
+                analytics.average_confidence ? `${(analytics.average_confidence * 100).toFixed(1)}%` : '0%';
+            
+            const positiveRate = analytics.sentiment_distribution.POSITIVE / analytics.total_reviews * 100;
+            document.getElementById('positiveRate').textContent = `${positiveRate.toFixed(1)}%`;
+            
+            const topProduct = analytics.top_products[0];
+            document.getElementById('topProduct').textContent = topProduct ? topProduct.name : '-';
+
+            // Update sentiment chart
+            sentimentChart.data.datasets[0].data = [
+                analytics.sentiment_distribution.POSITIVE || 0,
+                analytics.sentiment_distribution.NEGATIVE || 0,
+                analytics.sentiment_distribution.NEUTRAL || 0
+            ];
+            sentimentChart.update();
+
+            // Update product chart
+            productChart.data.labels = analytics.top_products.map(p => p.name);
+            productChart.data.datasets[0].data = analytics.top_products.map(p => p.review_count);
+            productChart.update();
+
+            // Update confidence chart
+            updateConfidenceChart(reviews);
+
+            // Update trends chart (mock data for demo)
+            updateTrendsChart();
+
+            // Update recent reviews
+            updateRecentReviews(reviews);
+        }
+
+        // Update confidence distribution chart
+        function updateConfidenceChart(reviews) {
+            const confidenceRanges = [0, 0, 0, 0, 0];
+            
+            reviews.forEach(review => {
+                const confidence = review.confidence * 100;
+                if (confidence <= 50) confidenceRanges[0]++;
+                else if (confidence <= 70) confidenceRanges[1]++;
+                else if (confidence <= 85) confidenceRanges[2]++;
+                else if (confidence <= 95) confidenceRanges[3]++;
+                else confidenceRanges[4]++;
+            });
+
+            confidenceChart.data.datasets[0].data = confidenceRanges;
+            confidenceChart.update();
+        }
+
+        // Update trends chart with mock time series data
+        function updateTrendsChart() {
+            const dates = [];
+            const positive = [];
+            const negative = [];
+            const neutral = [];
+
+            // Generate mock data for last 7 days
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                dates.push(date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+                
+                // Mock trend data
+                positive.push(Math.floor(Math.random() * 20) + 10);
+                negative.push(Math.floor(Math.random() * 10) + 2);
+                neutral.push(Math.floor(Math.random() * 8) + 3);
+            }
+
+            trendsChart.data.labels = dates;
+            trendsChart.data.datasets[0].data = positive;
+            trendsChart.data.datasets[1].data = negative;
+            trendsChart.data.datasets[2].data = neutral;
+            trendsChart.update();
+        }
+
+        // Update recent reviews
+        function updateRecentReviews(reviews) {
+            const container = document.getElementById('reviewsContainer');
+            
+            if (reviews.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center">No reviews available.</p>';
+                return;
+            }
+
+            const recentReviews = reviews.slice(0, 10);
+            const reviewsHTML = recentReviews.map(review => {
+                const sentimentClass = review.sentiment.toLowerCase();
+                const confidencePercent = (review.confidence * 100).toFixed(1);
+                
+                return `
+                    <div class="review-item">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="sentiment-${sentimentClass} me-2">
+                                        ${review.sentiment}
+                                    </span>
+                                    <span class="product-tag">${review.product_name}</span>
+                                    <small class="text-muted ms-2">
+                                        <i class="bi bi-person me-1"></i>${review.user_name}
+                                    </small>
+                                </div>
+                                <p class="mb-2">${review.review_text}</p>
+                                <small class="text-muted">
+                                    <i class="bi bi-clock me-1"></i>${new Date(review.timestamp).toLocaleString()}
+                                </small>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <div class="mb-2">
+                                    <small class="text-muted">Confidence</small>
+                                    <div class="confidence-bar">
+                                        <div class="confidence-fill" style="width: ${confidencePercent}%"></div>
+                                    </div>
+                                </div>
+                                <small class="text-muted">${confidencePercent}%</small>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = reviewsHTML;
+        }
+
+        // Refresh dashboard
+        function refreshDashboard() {
+            const btn = event.target;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="bi bi-arrow-clockwise me-2"></i>Refreshing...';
+            
+            loadDashboardData().finally(() => {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-arrow-clockwise me-2"></i>Refresh Data';
+            });
+        }
+
+        // Update date range
+        function updateDateRange() {
+            const range = document.getElementById('dateRange').value;
+            console.log('Date range changed to:', range);
+            // In a real implementation, this would filter the data
+            loadDashboardData();
+        }
+
+        // Export data
+        function exportData() {
+            const dataStr = JSON.stringify(currentData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `vogueai-analytics-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            showAlert('Analytics data exported successfully!', 'success');
+        }
+
+        // Show alert message
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 1050; max-width: 300px;';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}My Posts - VogueAI Blog{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="fw-bold">My Posts</h1>
+                <a href="{% url 'blog:post_create' %}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-2"></i>Create New Post
+                </a>
+            </div>
+
+            {% if posts %}
+                <div class="row g-4">
+                    {% for post in posts %}
+                        <div class="col-md-6">
+                            <article class="card blog-card h-100">
+                                {% if post.image %}
+                                    <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+                                {% else %}
+                                    {% if post.slug|slice:":1" == "a" %}
+                                        <img src="https://picsum.photos/400/250?random=1" class="card-img-top" alt="{{ post.title }}">
+                                    {% elif post.slug|slice:":1" == "b" %}
+                                        <img src="https://picsum.photos/400/250?random=2" class="card-img-top" alt="{{ post.title }}">
+                                    {% elif post.slug|slice:":1" == "c" %}
+                                        <img src="https://picsum.photos/400/250?random=3" class="card-img-top" alt="{{ post.title }}">
+                                    {% elif post.slug|slice:":1" == "d" %}
+                                        <img src="https://picsum.photos/400/250?random=4" class="card-img-top" alt="{{ post.title }}">
+                                    {% else %}
+                                        <img src="https://picsum.photos/400/250?random=5" class="card-img-top" alt="{{ post.title }}">
+                                    {% endif %}
+                                {% endif %}
+                                
+                                <div class="card-body">
+                                    <div class="mb-2">
+                                        <span class="category-badge">{{ post.category.name }}</span>
+                                        <span class="status-badge status-{{ post.status }}">
+                                            {{ post.get_status_display }}
+                                        </span>
+                                    </div>
+                                    <h5 class="card-title fw-bold">
+                                        <a href="{% url 'blog:post_detail' post.slug %}" class="text-decoration-none text-dark">
+                                            {{ post.title }}
+                                        </a>
+                                    </h5>
+                                    <p class="card-text text-muted">{{ post.content|striptags|truncatewords:20 }}</p>
+                                    
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <small class="text-muted">
+                                            <i class="bi bi-calendar me-1"></i>{{ post.published_at|date:"M d, Y" }}
+                                            <i class="bi bi-eye ms-3 me-1"></i>{{ post.views }}
+                                        </small>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="{% url 'blog:post_update' post.slug %}" class="btn btn-outline-primary">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <a href="{% url 'blog:post_delete' post.slug %}" class="btn btn-outline-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if is_paginated %}
+                    <nav aria-label="Page navigation" class="mt-5">
+                        <ul class="pagination justify-content-center">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                                </li>
+                            {% endif %}
+                            
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if page_obj.number == num %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ num }}</span>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                {% endif %}
+
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-file-earmark-text display-1 text-muted"></i>
+                    <h3 class="mt-3">No posts yet</h3>
+                    <p class="text-muted">You haven't created any posts. Start writing your first post!</p>
+                    <a href="{% url 'blog:post_create' %}" class="btn btn-primary">
+                        <i class="bi bi-plus-circle me-2"></i>Create Your First Post
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Quick Stats</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <div class="stat-item">
+                                <h4 class="text-primary">{{ total_posts }}</h4>
+                                <small class="text-muted">Total Posts</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="stat-item">
+                                <h4 class="text-success">{{ published_posts }}</h4>
+                                <small class="text-muted">Published</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="stat-item">
+                                <h4 class="text-warning">{{ draft_posts }}</h4>
+                                <small class="text-muted">Drafts</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'blog:post_create' %}" class="btn btn-primary">
+                            <i class="bi bi-plus-circle me-2"></i>Create New Post
+                        </a>
+                        <a href="{% url 'blog:post_list' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-list me-2"></i>View All Posts
+                        </a>
+                        <a href="/admin/blog/post/add/" class="btn btn-outline-info">
+                            <i class="bi bi-gear me-2"></i>Admin Panel
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.status-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+}
+
+.status-published {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-draft {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.stat-item {
+    padding: 0.5rem;
+}
+
+.blog-card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.blog-card:hover {
+    transform: translateY(-2px);
+}
+</style>
+{% endblock %}

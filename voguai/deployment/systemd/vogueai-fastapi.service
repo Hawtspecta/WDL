@@ -1,0 +1,36 @@
+[Unit]
+Description=VogueAI FastAPI ML Service
+After=network.target
+Wants=network.target
+
+[Service]
+Type=notify
+User=www-data
+Group=www-data
+RuntimeDirectory=vogueai
+WorkingDirectory=/path/to/voguai/fastapi_app
+Environment=PATH=/path/to/voguai/venv/bin
+Environment=TRANSFORMERS_CACHE=/tmp/transformers_cache
+Environment=HF_HOME=/tmp/huggingface_cache
+Environment=PYTHONPATH=/path/to/voguai/fastapi_app
+EnvironmentFile=-/etc/vogueai/environment
+ExecStart=/path/to/voguai/venv/bin/gunicorn --config /path/to/voguai/deployment/gunicorn/fastapi_gunicorn.py main:app
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=30
+PrivateTmp=true
+Restart=on-failure
+RestartSec=10
+
+# ML-specific settings
+MemoryLimit=2G
+CPUQuota=200%
+
+# Security
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/tmp
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}Collections - VogueAI Fashion Discovery{% endblock %}
+
+{% block content %}
+<!-- Hero Banner -->
+<section class="hero-banner" style="background-image: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1920&h=600&fit=crop');">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1 class="display-2 fw-bold mb-4" style="font-family: 'Playfair Display', serif;">Fashion Collections</h1>
+        <p class="lead mb-4">Curated collections for every style and occasion</p>
+    </div>
+</section>
+
+<!-- Collections Grid -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            {% for collection_key, collection in collections.items() %}
+            <div class="col-lg-6 mb-4">
+                <div class="card border-0 shadow-sm overflow-hidden fashion-card">
+                    <div class="row g-0">
+                        <div class="col-md-5">
+                            <img src="{{ collection.banner_image }}" class="img-fluid h-100" style="object-fit: cover;" alt="{{ collection.name }}">
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card-body p-4">
+                                <h3 class="card-title fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: var(--primary-black);">
+                                    {{ collection.name }}
+                                </h3>
+                                <p class="card-text text-muted mb-3">{{ collection.description }}</p>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="badge bg-warning text-dark fs-6">{{ collection.products|length }} Items</span>
+                                    <div class="text-warning">
+                                        {% for i in range(5) %}
+                                            <i class="bi bi-star-fill"></i>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <small class="text-muted">Featured Categories:</small>
+                                    <div class="mt-1">
+                                        {% if collection_key == 'summer' %}
+                                            <span class="badge bg-light text-dark me-1">Dresses</span>
+                                            <span class="badge bg-light text-dark me-1">Tops</span>
+                                            <span class="badge bg-light text-dark">Casual</span>
+                                        {% elif collection_key == 'business' %}
+                                            <span class="badge bg-light text-dark me-1">Suits</span>
+                                            <span class="badge bg-light text-dark me-1">Formal</span>
+                                            <span class="badge bg-light text-dark">Professional</span>
+                                        {% elif collection_key == 'evening' %}
+                                            <span class="badge bg-light text-dark me-1">Gowns</span>
+                                            <span class="badge bg-light text-dark me-1">Cocktail</span>
+                                            <span class="badge bg-light text-dark">Luxury</span>
+                                        {% elif collection_key == 'casual' %}
+                                            <span class="badge bg-light text-dark me-1">Jeans</span>
+                                            <span class="badge bg-light text-dark me-1">T-shirts</span>
+                                            <span class="badge bg-light text-dark">Comfort</span>
+                                        {% elif collection_key == 'accessories' %}
+                                            <span class="badge bg-light text-dark me-1">Bags</span>
+                                            <span class="badge bg-light text-dark me-1">Scarves</span>
+                                            <span class="badge bg-light text-dark">Jewelry</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <a href="{{ url_for('collection_detail', name=collection_key) }}" class="btn btn-dark">Explore Collection</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: var(--primary-black);">Why Choose Our Collections</h2>
+            <p class="lead text-muted">Curated with AI precision, styled for perfection</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4 text-center">
+                <div class="mb-3">
+                    <i class="bi bi-robot fs-1 text-warning"></i>
+                </div>
+                <h4 class="fw-bold mb-3">AI-Powered Curation</h4>
+                <p class="text-muted">Our collections are curated using advanced AI algorithms that analyze fashion trends and customer preferences.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="mb-3">
+                    <i class="bi bi-star fs-1 text-warning"></i>
+                </div>
+                <h4 class="fw-bold mb-3">Premium Quality</h4>
+                <p class="text-muted">Every piece in our collections meets the highest standards of quality and craftsmanship.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="mb-3">
+                    <i class="bi bi-heart fs-1 text-warning"></i>
+                </div>
+                <h4 class="fw-bold mb-3">Style Diversity</h4>
+                <p class="text-muted">From casual comfort to evening glamour, we have collections for every style and occasion.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: var(--primary-black);">Stay Fashion Forward</h2>
+                <p class="lead text-muted mb-4">Get exclusive access to new collections and fashion insights</p>
+                <div class="d-flex gap-3 justify-content-center">
+                    <a href="/sentiment" class="btn btn-dark btn-lg px-4 py-3">Try Sentiment Analysis</a>
+                    <a href="{{ url_for('index') }}" class="btn btn-outline-dark btn-lg px-4 py-3">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add animation to cards when they come into view
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in-up');
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('.fashion-card').forEach(card => {
+        observer.observe(card);
+    });
+});
+</script>
+{% endblock %}

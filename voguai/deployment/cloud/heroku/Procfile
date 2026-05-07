@@ -1,0 +1,14 @@
+# VogueAI Heroku Process File
+# Defines the processes that run on Heroku dynos
+
+# Web process for Django blog application
+web: gunicorn --config deployment/gunicorn/django_gunicorn.py vogueblog.wsgi:application
+
+# ML API process for FastAPI sentiment analysis
+ml: gunicorn --config deployment/gunicorn/fastapi_gunicorn.py main:app
+
+# Worker process for background tasks (optional)
+worker: python manage.py rqworker
+
+# Release process for database migrations
+release: python manage.py migrate
