@@ -2,35 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "django_project/mercel.py",
+      "src": "django_project/wsgi.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
-    {
-      "src": "/media/(.*)",
-      "dest": "/media/$1"
-    },
-    {
-      "src": "/admin/(.*)",
-      "dest": "django_project/mercel.py"
-    },
-    {
-      "src": "/blog/(.*)",
-      "dest": "django_project/mercel.py"
-    },
-    {
       "src": "/(.*)",
-      "dest": "django_project/mercel.py"
+      "dest": "django_project/wsgi.py"
     }
-  ],
-  "env": {
-    "DJANGO_SETTINGS_MODULE": "vogueblog.settings",
-    "DEBUG": "False",
-    "SECRET_KEY": "@secret_key"
-  }
+  ]
 }
