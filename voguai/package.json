@@ -1,0 +1,18 @@
+{
+  "name": "voguai",
+  "version": "1.0.0",
+  "description": "A comprehensive full-stack fashion platform that demonstrates advanced web development, machine learning integration, and modern deployment practices.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  }
+}
