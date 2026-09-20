@@ -1,9 +1,10 @@
-"use client";
+  0......"0use client000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";    
 
 import React, { useState } from "react";
 import DashboardOcean from "./components/dashboard-ocean";
 import DashboardMinimal from "./components/dashboard-minimal";
-import { LayoutDashboard, Sparkles, Compass, Sun, Columns } from "lucide-react";
+import { LayoutDashboard, Sparkles, Compass, Sun, Columns, Database } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   // Mode switcher: "ocean" (Light Design 1) | "minimal" (Light Design 2) | "split" (Side by side comparison)
@@ -66,6 +67,14 @@ export default function Home() {
               <Columns className="w-3.5 h-3.5" />
               <span>Split Comparison</span>
             </button>
+
+            <Link
+              href="/logs"
+              className="flex items-center gap-2 text-xs font-semibold px-3.5 py-2 rounded-xl transition-all text-slate-600 hover:text-slate-900 hover:bg-white/60 ml-2 border-l border-slate-300 pl-4"
+            >
+              <Database className="w-3.5 h-3.5 text-cyan-600" />
+              <span>Dive Logs CRUD</span>
+            </Link>
           </div>
         </div>
       </header>
