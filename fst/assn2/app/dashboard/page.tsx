@@ -3,7 +3,9 @@ import { redirect } from 'next/navigation';
 import Navigation from '@/components/Navigation';
 import { prisma } from '@/lib/prisma';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Activity, DollarSign, Users, FileText } from 'lucide-react';
+import { Activity, DollarSign, Users, FileText, LucideIcon } from 'lucide-react';
+
+export const dynamic = 'force-dynamic';
 
 export default async function DashboardPage() {
   const session = await getSession();
@@ -17,7 +19,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation userRole={session.role as string} />
+      <Navigation userRole={session.role} userName={session.name} />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
@@ -98,8 +100,8 @@ export default async function DashboardPage() {
   );
 }
 
-async function getDashboardStats(session: any) {
-  const where = session.role === 'ADMIN' || session.role === 'MEMBER' ? {} : { userId: session.id };
+async function getDashboardStats(session: { id: string; role: string; name: string; email: string }) {
+  const where = session.role === 'ADMIN' ? {} : { userId: session.id };
 
   const [totalTransactions, totalAmount, totalUsers, recentTransactions] = await Promise.all([
     prisma.transaction.count({ where }),
@@ -134,7 +136,7 @@ async function getDashboardStats(session: any) {
   };
 }
 
-function StatCard({ title, value, icon: Icon, description }: any) {
+function StatCard({ title, value, icon: Icon, description }: { title: string; value: string | number; icon: LucideIcon; description: string }) {
   return (
     <Card>
       <CardContent className="p-6">

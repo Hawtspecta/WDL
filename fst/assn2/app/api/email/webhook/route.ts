@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import { prisma } from '@/lib/prisma';
-import { EmailEventType } from '@prisma/client';
-import crypto from 'crypto';
 
 export async function POST(request: NextRequest) {
   try {
@@ -37,24 +35,24 @@ export async function POST(request: NextRequest) {
 
     const eventData = JSON.parse(rawBody);
     
-    // Map Resend event types to our enum
-    const eventTypeMap: Record<string, EmailEventType> = {
-      'sent': EmailEventType.SENT,
-      'delivered': EmailEventType.DELIVERED,
-      'opened': EmailEventType.OPENED,
-      'clicked': EmailEventType.CLICKED,
-      'bounced': EmailEventType.BOUNCED,
-      'failed': EmailEventType.FAILED,
-      'delayed': EmailEventType.DELAYED,
+    // Map Resend event types to our string values
+    const eventTypeMap: Record<string, string> = {
+      'sent': 'SENT',
+      'delivered': 'DELIVERED',
+      'opened': 'OPENED',
+      'clicked': 'CLICKED',
+      'bounced': 'BOUNCED',
+      'failed': 'FAILED',
+      'delayed': 'DELAYED',
     };
 
-    const eventType = eventTypeMap[eventData.type] || EmailEventType.SENT;
+    const eventType = eventTypeMap[eventData.type] || 'SENT';
     
     // Extract relevant data from the webhook payload
     const messageId = eventData.data?.message_id || eventData.message_id || 'unknown';
     const recipient = eventData.data?.to?.[0] || eventData.data?.email || 'unknown';
     const subject = eventData.data?.subject || null;
-    const timestamp = new Date(eventData.created_at || Date.now());
+    const eventTimestamp = new Date(eventData.created_at || Date.now());
     
     // Create email event record
     const emailEvent = await prisma.emailEvent.create({
@@ -63,17 +61,17 @@ export async function POST(request: NextRequest) {
         messageId,
         recipient,
         subject,
-        timestamp,
-        metadata: {
+        timestamp: eventTimestamp,
+        metadata: JSON.stringify({
           raw: eventData,
           // Add additional metadata based on event type
-          ...(eventType === EmailEventType.BOUNCED && {
+          ...(eventType === 'BOUNCED' && {
             bounceReason: eventData.data?.error?.reason || eventData.data?.reason,
           }),
-          ...(eventType === EmailEventType.FAILED && {
+          ...(eventType === 'FAILED' && {
             failureReason: eventData.data?.error?.reason,
           }),
-        },
+        }),
       },
     });
 

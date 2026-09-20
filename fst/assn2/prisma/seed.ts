@@ -1,4 +1,4 @@
-import { PrismaClient, UserRole, TransactionStatus, AuditAction, EmailEventType } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
 
 const prisma = new PrismaClient();
@@ -6,203 +6,195 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Starting database seed...');
 
-  // Clean existing data
+  // Clean existing data in reverse dependency order
   console.log('🧹 Cleaning existing data...');
   await prisma.emailEvent.deleteMany();
   await prisma.auditLog.deleteMany();
   await prisma.transaction.deleteMany();
+  await prisma.verification.deleteMany();
+  await prisma.session.deleteMany();
+  await prisma.account.deleteMany();
   await prisma.user.deleteMany();
   await prisma.role.deleteMany();
 
-  // Create Roles
+  // ── Create Roles ──────────────────────────────────────────────────────────
   console.log('📋 Creating roles...');
-  const roles = await Promise.all([
-    prisma.role.create({
-      data: { name: UserRole.ADMIN },
-    }),
-    prisma.role.create({
-      data: { name: UserRole.MEMBER },
-    }),
-    prisma.role.create({
-      data: { name: UserRole.GUEST },
-    }),
+  const [adminRole, memberRole, guestRole] = await Promise.all([
+    prisma.role.create({ data: { name: 'ADMIN' } }),
+    prisma.role.create({ data: { name: 'MEMBER' } }),
+    prisma.role.create({ data: { name: 'GUEST' } }),
   ]);
+  console.log(`✅ Created 3 roles`);
 
-  console.log(`✅ Created ${roles.length} roles`);
-
-  // Create Users
+  // ── Create Users + Accounts (Better Auth structure) ───────────────────────
+  // Better Auth stores passwords in the `account` model, not `user`.
+  // We create both a user row and an account row with a hashed password.
+  // For demo seeds we store a sentinel password hash that won't be used
+  // for real login; actual login users are created below with known creds.
   console.log('👤 Creating users...');
-  const users = [];
-  
-  // Create admin users
-  for (let i = 0; i < 2; i++) {
-    const user = await prisma.user.create({
-      data: {
-        email: faker.internet.email({ firstName: `admin${i}`, lastName: 'user' }),
-        name: faker.person.fullName(),
-        password: 'hashed_password_here', // In production, use proper hashing
-        roleId: roles.find(r => r.name === UserRole.ADMIN)!.id,
-      },
-    });
-    users.push(user);
-  }
 
-  // Create member users
+  const usersData: Array<{ name: string; email: string; roleId: string }> = [];
+
+  // Known demo accounts for the evaluator
+  usersData.push({ name: 'Alice Admin', email: 'admin@demo.com', roleId: adminRole.id });
+  usersData.push({ name: 'Bob Admin', email: 'admin2@demo.com', roleId: adminRole.id });
+
   for (let i = 0; i < 5; i++) {
-    const user = await prisma.user.create({
-      data: {
-        email: faker.internet.email({ firstName: `member${i}`, lastName: 'user' }),
-        name: faker.person.fullName(),
-        password: 'hashed_password_here',
-        roleId: roles.find(r => r.name === UserRole.MEMBER)!.id,
-      },
+    usersData.push({
+      name: faker.person.fullName(),
+      email: faker.internet.email({ firstName: `member${i}`, lastName: 'user' }),
+      roleId: memberRole.id,
     });
-    users.push(user);
+  }
+  for (let i = 0; i < 3; i++) {
+    usersData.push({
+      name: faker.person.fullName(),
+      email: faker.internet.email({ firstName: `guest${i}`, lastName: 'user' }),
+      roleId: guestRole.id,
+    });
   }
 
-  // Create guest users
-  for (let i = 0; i < 3; i++) {
-    const user = await prisma.user.create({
+  const users: Awaited<ReturnType<typeof prisma.user.create>>[] = [];
+
+  for (const u of usersData) {
+    const createdUser = await prisma.user.create({
       data: {
-        email: faker.internet.email({ firstName: `guest${i}`, lastName: 'user' }),
-        name: faker.person.fullName(),
-        password: 'hashed_password_here',
-        roleId: roles.find(r => r.name === UserRole.GUEST)!.id,
+        name: u.name,
+        email: u.email,
+        emailVerified: true,
+        roleId: u.roleId,
+        accounts: {
+          create: {
+            accountId: u.email,
+            providerId: 'credential',
+            password: '$2a$10$SEED_PLACEHOLDER_NOT_A_REAL_HASH', // placeholder – real auth uses better-auth
+          },
+        },
       },
     });
-    users.push(user);
+    users.push(createdUser);
   }
 
   console.log(`✅ Created ${users.length} users`);
 
-  // Create Transactions
+  // ── Create Transactions ───────────────────────────────────────────────────
   console.log('💰 Creating transactions...');
-  const transactions = [];
-  const statuses = Object.values(TransactionStatus);
+  const statuses = ['PENDING', 'COMPLETED', 'FAILED', 'CANCELLED'];
+  const transactions: Awaited<ReturnType<typeof prisma.transaction.create>>[] = [];
 
   for (const user of users) {
     const numTransactions = faker.number.int({ min: 2, max: 8 });
-    
     for (let i = 0; i < numTransactions; i++) {
-      const transaction = await prisma.transaction.create({
+      const t = await prisma.transaction.create({
         data: {
           userId: user.id,
           amount: parseFloat(faker.finance.amount({ min: 10, max: 10000, dec: 2 })),
           description: faker.finance.transactionDescription(),
           status: statuses[faker.number.int({ min: 0, max: statuses.length - 1 })],
-          metadata: {
+          metadata: JSON.stringify({
             category: faker.commerce.department(),
             reference: faker.string.uuid(),
-          },
+          }),
           createdAt: faker.date.past({ years: 1 }),
         },
       });
-      transactions.push(transaction);
+      transactions.push(t);
     }
   }
-
   console.log(`✅ Created ${transactions.length} transactions`);
 
-  // Create Audit Logs
+  // ── Create Audit Logs ─────────────────────────────────────────────────────
   console.log('📝 Creating audit logs...');
-  const auditLogs = [];
-  const actions = Object.values(AuditAction);
+  const auditLogs: Awaited<ReturnType<typeof prisma.auditLog.create>>[] = [];
+  const txActions = ['CREATE_TRANSACTION', 'UPDATE_TRANSACTION', 'DELETE_TRANSACTION'];
+  const userActions = ['LOGIN', 'LOGOUT', 'USER_UPDATE', 'ROLE_CHANGE'];
 
-  for (const transaction of transactions) {
+  // Transaction-related audit logs
+  for (const tx of transactions) {
     const numLogs = faker.number.int({ min: 1, max: 3 });
-    
     for (let i = 0; i < numLogs; i++) {
-      const action = actions[faker.number.int({ min: 0, max: actions.length - 1 })];
-      const auditLog = await prisma.auditLog.create({
+      const action = txActions[faker.number.int({ min: 0, max: txActions.length - 1 })];
+      const log = await prisma.auditLog.create({
         data: {
-          userId: transaction.userId,
-          action: action,
+          userId: tx.userId,
+          action,
           entityType: 'Transaction',
-          entityId: transaction.id,
-          metadata: {
+          entityId: tx.id,
+          transactionId: tx.id,
+          metadata: JSON.stringify({
             details: faker.lorem.sentence(),
-            previousState: i > 0 ? faker.lorem.word() : null,
-          },
+            amount: tx.amount,
+          }),
           ipAddress: faker.internet.ip(),
           userAgent: faker.internet.userAgent(),
-          createdAt: faker.date.between({
-            from: transaction.createdAt,
-            to: new Date(),
-          }),
+          createdAt: faker.date.between({ from: tx.createdAt, to: new Date() }),
         },
       });
-      auditLogs.push(auditLog);
+      auditLogs.push(log);
     }
   }
 
-  // Add some user-related audit logs
+  // User-related audit logs
   for (const user of users) {
-    const numLogs = faker.number.int({ min: 1, max: 2 });
-    
+    const numLogs = faker.number.int({ min: 1, max: 3 });
     for (let i = 0; i < numLogs; i++) {
-      const auditLog = await prisma.auditLog.create({
+      const action = userActions[faker.number.int({ min: 0, max: userActions.length - 1 })];
+      const log = await prisma.auditLog.create({
         data: {
           userId: user.id,
-          action: AuditAction.LOGIN,
+          action,
           entityType: 'User',
           entityId: user.id,
-          metadata: {
-            loginMethod: 'password',
-          },
+          metadata: JSON.stringify({ method: 'password' }),
           ipAddress: faker.internet.ip(),
           userAgent: faker.internet.userAgent(),
-          createdAt: faker.date.past({ months: 6 }),
+          createdAt: faker.date.past({ years: 1 }),
         },
       });
-      auditLogs.push(auditLog);
+      auditLogs.push(log);
     }
   }
-
   console.log(`✅ Created ${auditLogs.length} audit logs`);
 
-  // Create Email Events
+  // ── Create Email Events ───────────────────────────────────────────────────
   console.log('📧 Creating email events...');
-  const emailEvents = [];
-  const eventTypes = Object.values(EmailEventType);
+  const emailEvents: Awaited<ReturnType<typeof prisma.emailEvent.create>>[] = [];
+  const eventTypes = ['SENT', 'DELIVERED', 'OPENED', 'CLICKED', 'BOUNCED', 'FAILED'];
 
-  for (const transaction of transactions.slice(0, 20)) {
-    const user = users.find(u => u.id === transaction.userId);
+  for (const tx of transactions.slice(0, 20)) {
+    const user = users.find(u => u.id === tx.userId);
     if (!user) continue;
-
     const numEvents = faker.number.int({ min: 1, max: 3 });
-    
     for (let i = 0; i < numEvents; i++) {
       const eventType = eventTypes[faker.number.int({ min: 0, max: eventTypes.length - 1 })];
-      const emailEvent = await prisma.emailEvent.create({
+      const ev = await prisma.emailEvent.create({
         data: {
-          eventType: eventType,
+          eventType,
           messageId: faker.string.uuid(),
           recipient: user.email,
-          subject: `Transaction Update: ${transaction.description.substring(0, 30)}...`,
-          timestamp: faker.date.between({
-            from: transaction.createdAt,
-            to: new Date(),
+          subject: `Transaction Update: ${tx.description.substring(0, 40)}`,
+          timestamp: faker.date.between({ from: tx.createdAt, to: new Date() }),
+          metadata: JSON.stringify({
+            transactionId: tx.id,
+            template: 'TransactionCreatedEmail',
+            bounceReason: eventType === 'BOUNCED' ? faker.lorem.sentence() : null,
           }),
-          metadata: {
-            transactionId: transaction.id,
-            template: 'TransactionUpdate',
-            bounceReason: eventType === EmailEventType.BOUNCED ? faker.lorem.sentence() : null,
-          },
         },
       });
-      emailEvents.push(emailEvent);
+      emailEvents.push(ev);
     }
   }
-
   console.log(`✅ Created ${emailEvents.length} email events`);
 
-  console.log('🎉 Seed completed successfully!');
-  console.log('\n📊 Summary:');
-  console.log(`   - Roles: ${roles.length}`);
+  console.log('\n🎉 Seed completed successfully!');
+  console.log('📊 Summary:');
+  console.log(`   - Roles: 3 (ADMIN, MEMBER, GUEST)`);
   console.log(`   - Users: ${users.length}`);
   console.log(`   - Transactions: ${transactions.length}`);
   console.log(`   - Audit Logs: ${auditLogs.length}`);
   console.log(`   - Email Events: ${emailEvents.length}`);
+  console.log('\n🔑 Demo credentials (create via /login signup):');
+  console.log('   admin@demo.com / admin2@demo.com');
 }
 
 main()

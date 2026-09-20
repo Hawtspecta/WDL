@@ -3,20 +3,20 @@ import { auth } from '@/lib/auth/config';
 import { canAccessResource } from '@/lib/authorization';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
-import { AuditAction, TransactionStatus, UserRole } from '@prisma/client';
 
 const updateTransactionSchema = z.object({
   amount: z.number().positive().optional(),
   description: z.string().min(1).max(500).optional(),
-  status: z.nativeEnum(TransactionStatus).optional(),
-  metadata: z.record(z.any()).optional(),
+  status: z.string().optional(),
+  metadata: z.record(z.string(), z.any()).optional(),
 });
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await auth.api.getSession({
       headers: request.headers,
     });
@@ -42,7 +42,7 @@ export async function GET(
     }
 
     const transaction = await prisma.transaction.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         user: {
           select: {
@@ -65,8 +65,10 @@ export async function GET(
       );
     }
 
+    const userRole = user.role?.name || 'GUEST';
+
     // Check authorization
-    if (!canAccessResource({ id: user.id, email: user.email, name: user.name, role: user.role.name as UserRole }, transaction.userId)) {
+    if (!canAccessResource({ id: user.id, email: user.email, name: user.name, role: userRole }, transaction.userId)) {
       return NextResponse.json(
         { data: null, errors: ['Forbidden: Insufficient permissions'] },
         { status: 403 }
@@ -88,9 +90,10 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await auth.api.getSession({
       headers: request.headers,
     });
@@ -116,7 +119,7 @@ export async function PATCH(
     }
 
     const existingTransaction = await prisma.transaction.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!existingTransaction) {
@@ -126,8 +129,10 @@ export async function PATCH(
       );
     }
 
+    const userRole = user.role?.name || 'GUEST';
+
     // Check authorization
-    if (!canAccessResource({ id: user.id, email: user.email, name: user.name, role: user.role.name as UserRole }, existingTransaction.userId)) {
+    if (!canAccessResource({ id: user.id, email: user.email, name: user.name, role: userRole }, existingTransaction.userId)) {
       return NextResponse.json(
         { data: null, errors: ['Forbidden: Insufficient permissions'] },
         { status: 403 }
@@ -141,21 +146,24 @@ export async function PATCH(
     // Update transaction with audit log
     const transaction = await prisma.$transaction(async (tx) => {
       const updatedTransaction = await tx.transaction.update({
-        where: { id: params.id },
-        data: validatedData,
+        where: { id },
+        data: {
+          ...validatedData,
+          metadata: validatedData.metadata ? JSON.stringify(validatedData.metadata) : null,
+        },
       });
 
       // Create audit log
       await tx.auditLog.create({
         data: {
           userId: user.id,
-          action: AuditAction.UPDATE_TRANSACTION,
+          action: 'UPDATE_TRANSACTION',
           entityType: 'Transaction',
           entityId: updatedTransaction.id,
-          metadata: {
+          metadata: JSON.stringify({
             changes: validatedData,
             previousState: existingTransaction,
-          },
+          }),
           ipAddress: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown',
           userAgent: request.headers.get('user-agent') || 'unknown',
         },
@@ -172,7 +180,7 @@ export async function PATCH(
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { data: null, errors: error.errors.map(e => e.message) },
+        { data: null, errors: error.issues.map((e: z.ZodIssue) => e.message) },
         { status: 400 }
       );
     }
@@ -187,9 +195,10 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await auth.api.getSession({
       headers: request.headers,
     });
@@ -215,7 +224,7 @@ export async function DELETE(
     }
 
     const existingTransaction = await prisma.transaction.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!existingTransaction) {
@@ -225,8 +234,10 @@ export async function DELETE(
       );
     }
 
+    const userRole = user.role?.name || 'GUEST';
+
     // Check authorization - only admins can delete
-    if (user.role.name !== UserRole.ADMIN) {
+    if (userRole !== 'ADMIN') {
       return NextResponse.json(
         { data: null, errors: ['Forbidden: Insufficient permissions'] },
         { status: 403 }
@@ -236,19 +247,19 @@ export async function DELETE(
     // Delete transaction with audit log
     await prisma.$transaction(async (tx) => {
       await tx.transaction.delete({
-        where: { id: params.id },
+        where: { id },
       });
 
       // Create audit log
       await tx.auditLog.create({
         data: {
           userId: user.id,
-          action: AuditAction.DELETE_TRANSACTION,
+          action: 'DELETE_TRANSACTION',
           entityType: 'Transaction',
-          entityId: params.id,
-          metadata: {
+          entityId: id,
+          metadata: JSON.stringify({
             deletedTransaction: existingTransaction,
-          },
+          }),
           ipAddress: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown',
           userAgent: request.headers.get('user-agent') || 'unknown',
         },

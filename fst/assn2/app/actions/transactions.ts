@@ -5,13 +5,12 @@ import { headers } from 'next/headers';
 import { canCreateTransaction } from '@/lib/authorization';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
-import { AuditAction, TransactionStatus, UserRole } from '@prisma/client';
 import { sendTransactionEmail } from '@/lib/email/resend';
 
 const createTransactionSchema = z.object({
   amount: z.number().positive('Amount must be positive'),
   description: z.string().min(1, 'Description is required').max(500, 'Description too long'),
-  metadata: z.record(z.any()).optional(),
+  metadata: z.record(z.string(), z.any()).optional(),
 });
 
 export async function createTransaction(formData: FormData) {
@@ -41,8 +40,10 @@ export async function createTransaction(formData: FormData) {
       };
     }
 
+    const userRoleName = user.role?.name || 'GUEST';
+
     // Check authorization
-    if (!canCreateTransaction({ id: user.id, email: user.email, name: user.name, role: user.role.name as UserRole })) {
+    if (!canCreateTransaction({ id: user.id, email: user.email, name: user.name, role: userRoleName })) {
       return {
         success: false,
         errors: ['Forbidden: Insufficient permissions to create transactions'],
@@ -60,6 +61,8 @@ export async function createTransaction(formData: FormData) {
       metadata,
     });
 
+    const headerObj = await headers();
+
     // Create transaction with audit log using Prisma transaction
     const result = await prisma.$transaction(async (tx) => {
       // Create the transaction
@@ -68,8 +71,8 @@ export async function createTransaction(formData: FormData) {
           userId: user.id,
           amount: validatedData.amount,
           description: validatedData.description,
-          status: TransactionStatus.PENDING,
-          metadata: validatedData.metadata,
+          status: 'PENDING',
+          metadata: validatedData.metadata ? JSON.stringify(validatedData.metadata) : null,
         },
       });
 
@@ -77,15 +80,15 @@ export async function createTransaction(formData: FormData) {
       const auditLog = await tx.auditLog.create({
         data: {
           userId: user.id,
-          action: AuditAction.CREATE_TRANSACTION,
+          action: 'CREATE_TRANSACTION',
           entityType: 'Transaction',
           entityId: transaction.id,
-          metadata: {
+          metadata: JSON.stringify({
             amount: validatedData.amount,
             description: validatedData.description,
-          },
-          ipAddress: (await headers()).get('x-forwarded-for') || (await headers()).get('x-real-ip') || 'unknown',
-          userAgent: (await headers()).get('user-agent') || 'unknown',
+          }),
+          ipAddress: headerObj.get('x-forwarded-for') || headerObj.get('x-real-ip') || 'unknown',
+          userAgent: headerObj.get('user-agent') || 'unknown',
         },
       });
 
@@ -104,7 +107,6 @@ export async function createTransaction(formData: FormData) {
       });
     } catch (emailError) {
       console.error('Failed to send email notification:', emailError);
-      // Don't fail the transaction if email fails, but log it
     }
 
     return {
@@ -116,7 +118,7 @@ export async function createTransaction(formData: FormData) {
     if (error instanceof z.ZodError) {
       return {
         success: false,
-        errors: error.errors.map(e => e.message),
+        errors: error.issues.map((e: z.ZodIssue) => e.message),
       };
     }
 
@@ -155,6 +157,8 @@ export async function updateTransaction(transactionId: string, formData: FormDat
       };
     }
 
+    const userRoleName = user.role?.name || 'GUEST';
+
     // Get existing transaction
     const existingTransaction = await prisma.transaction.findUnique({
       where: { id: transactionId },
@@ -168,7 +172,7 @@ export async function updateTransaction(transactionId: string, formData: FormDat
     }
 
     // Check authorization (user can only update their own transactions unless admin)
-    if (user.role.name !== UserRole.ADMIN && existingTransaction.userId !== user.id) {
+    if (userRoleName !== 'ADMIN' && existingTransaction.userId !== user.id) {
       return {
         success: false,
         errors: ['Forbidden: You can only update your own transactions'],
@@ -178,12 +182,17 @@ export async function updateTransaction(transactionId: string, formData: FormDat
     // Extract and validate form data
     const amount = formData.get('amount') ? parseFloat(formData.get('amount') as string) : undefined;
     const description = formData.get('description') as string || undefined;
-    const status = formData.get('status') as TransactionStatus || undefined;
+    const status = formData.get('status') as string || undefined;
 
-    const updateData: any = {};
+    const updateData: Record<string, unknown> = {};
     if (amount !== undefined) updateData.amount = amount;
     if (description !== undefined) updateData.description = description;
     if (status !== undefined) updateData.status = status;
+    if (formData.get('metadata')) {
+      updateData.metadata = JSON.stringify(JSON.parse(formData.get('metadata') as string));
+    }
+
+    const headerObj = await headers();
 
     // Update transaction with audit log
     const result = await prisma.$transaction(async (tx) => {
@@ -196,15 +205,15 @@ export async function updateTransaction(transactionId: string, formData: FormDat
       await tx.auditLog.create({
         data: {
           userId: user.id,
-          action: AuditAction.UPDATE_TRANSACTION,
+          action: 'UPDATE_TRANSACTION',
           entityType: 'Transaction',
           entityId: transaction.id,
-          metadata: {
+          metadata: JSON.stringify({
             changes: updateData,
             previousState: existingTransaction,
-          },
-          ipAddress: (await headers()).get('x-forwarded-for') || (await headers()).get('x-real-ip') || 'unknown',
-          userAgent: (await headers()).get('user-agent') || 'unknown',
+          }),
+          ipAddress: headerObj.get('x-forwarded-for') || headerObj.get('x-real-ip') || 'unknown',
+          userAgent: headerObj.get('user-agent') || 'unknown',
         },
       });
 

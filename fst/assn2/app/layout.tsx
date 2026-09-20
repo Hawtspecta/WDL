@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description: "A professional full-stack application demonstrating authentication, authorization, and transactional email workflows",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"

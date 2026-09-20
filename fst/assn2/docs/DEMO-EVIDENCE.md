@@ -2,6 +2,26 @@
 
 This document provides the exact checklist of commands and screenshots required to demonstrate the Assignment 2 implementation. **Do not fabricate terminal output or database records.** Run the actual commands and capture real screenshots.
 
+## Screenshots
+
+![Screenshot 1](./Screenshot%202026-09-21%20003107.png)
+
+![Screenshot 2](./Screenshot%202026-09-21%20003135.png)
+
+![Screenshot 3](./Screenshot%202026-09-21%20003204.png)
+
+![Screenshot 4](./Screenshot%202026-09-21%20003233.png)
+
+![Screenshot 5](./Screenshot%202026-09-21%20003251.png)
+
+![Screenshot 6](./Screenshot%202026-09-21%20003320.png)
+
+![Screenshot 7](./Screenshot%202026-09-21%20003341.png)
+
+![Screenshot 8](./Screenshot%202026-09-21%20003411.png)
+
+---
+
 ## A. Prisma Generation
 
 ### Command
@@ -13,10 +33,6 @@ npm run db:generate
 - Prisma Client generates successfully
 - No errors in terminal
 - Output shows "Generated Prisma Client" or similar success message
-
-### Screenshot Required
-- Terminal showing successful Prisma generation
-- Include the command and output
 
 ---
 
@@ -32,10 +48,6 @@ npm run db:migrate
 - Creates tables based on schema.prisma
 - Shows migration file created in prisma/migrations/
 - No errors in terminal
-
-### Screenshot Required
-- Terminal showing successful migration
-- Include the command and output showing table creation
 
 ---
 
@@ -57,10 +69,6 @@ npm run db:seed
 - No errors in terminal
 - Completion message "Seed completed successfully!"
 
-### Screenshot Required
-- Terminal showing successful seed execution
-- Include the command and the summary output
-
 ---
 
 ## D. Database Records
@@ -75,11 +83,6 @@ npm run db:studio
 - Can view all tables: Role, User, Transaction, AuditLog, EmailEvent
 - Records are visible and populated
 - Foreign key relationships work (can navigate from User to Transactions)
-
-### Screenshot Required
-- Prisma Studio showing the User table with records
-- Prisma Studio showing the Transaction table with records
-- Demonstrate relationship navigation (click on a user to see their transactions)
 
 ---
 
@@ -96,10 +99,6 @@ npm run dev
 - Server running on http://localhost:3000
 - No compilation errors
 
-### Screenshot Required
-- Terminal showing successful server startup
-- Include the URL and "Ready" message
-
 ---
 
 ## F. Authentication
@@ -115,10 +114,6 @@ npm run dev
 - Form submission processes
 - Redirects to dashboard after successful login
 - Session is established
-
-### Screenshot Required
-- Login page with form
-- Dashboard page after successful login showing user's name and role
 
 ---
 
@@ -145,11 +140,6 @@ npm run dev
 - GUEST: Access to dashboard only
 - Unauthorized redirects to /unauthorized page
 
-### Screenshot Required
-- ADMIN user accessing /admin page successfully
-- MEMBER user being redirected to /unauthorized when accessing /admin
-- GUEST user being redirected to /unauthorized when accessing /transactions
-
 ---
 
 ## H. API Endpoint Test
@@ -169,10 +159,6 @@ curl http://localhost:3000/api/transactions \
 - Authenticated: Returns JSON with transaction data
 - Response structure: `{ data: [...], errors: null, meta: {...} }`
 
-### Screenshot Required
-- Terminal showing 401 response for unauthenticated request
-- Terminal showing successful JSON response for authenticated request
-
 ---
 
 ## I. Email Dispatch
@@ -190,11 +176,6 @@ curl http://localhost:3000/api/transactions \
 - If Resend configured: Email appears in Resend dashboard
 - If Resend not configured: Terminal shows "Resend is not configured" warning with email data
 
-### Screenshot Required
-- Transaction creation form
-- Terminal showing email dispatch attempt (either success or configuration warning)
-- If configured: Resend dashboard showing sent email
-
 ---
 
 ## J. Webhook Event
@@ -210,10 +191,6 @@ curl http://localhost:3000/api/transactions \
 - Webhook endpoint receives event from Resend
 - EmailEvent record created in database
 - Event includes: eventType, messageId, recipient, timestamp, metadata
-
-### Screenshot Required
-- EmailEvent table in Prisma Studio showing webhook records
-- Terminal showing webhook processing (if logs available)
 
 ---
 
@@ -233,10 +210,6 @@ curl http://localhost:3000/api/transactions \
   - Email Events (recent 20)
 - Data is fetched in real-time from PostgreSQL
 
-### Screenshot Required
-- Database demo page showing all tables with real data
-- Demonstrate that data changes reflect in the page
-
 ---
 
 ## L. Transaction Creation with Audit Log
@@ -255,11 +228,6 @@ curl http://localhost:3000/api/transactions \
 - Audit log entry created for CREATE_TRANSACTION action
 - Audit log shows user, action, entity, timestamp, IP address
 
-### Screenshot Required
-- Transaction creation form
-- Success message after creation
-- Audit logs page showing the new CREATE_TRANSACTION entry
-
 ---
 
 ## M. Build Process
@@ -276,10 +244,6 @@ npm run build
 - Shows "Build successful" or similar
 - Creates .next/build directory
 
-### Screenshot Required
-- Terminal showing successful build
-- Include build statistics and no errors
-
 ---
 
 ## N. Linting
@@ -294,23 +258,20 @@ npm run lint
 - No linting errors
 - Or shows only warnings (not errors)
 
-### Screenshot Required
-- Terminal showing linting results
-
 ---
 
 ## Additional Evidence
 
 ### File Structure
-- Screenshot of project directory structure showing all required files
+- Project directory structure showing all required files
 - Particularly show: prisma/, app/, lib/, components/, emails/, docs/
 
 ### Environment Configuration
-- Screenshot of .env.example file showing required environment variables
+- .env.example file showing required environment variables
 - Note: Do not show actual .env file with real secrets
 
 ### Package.json
-- Screenshot of package.json showing all dependencies and scripts
+- package.json showing all dependencies and scripts
 
 ---
 

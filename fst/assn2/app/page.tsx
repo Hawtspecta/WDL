@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Shield, Lock, Database, Mail } from 'lucide-react';
+import { Shield, Lock, Database, Mail, LucideIcon } from 'lucide-react';
 
 export default function HomePage() {
   return (
@@ -56,7 +56,7 @@ export default function HomePage() {
   );
 }
 
-function FeatureCard({ icon: Icon, title, description }: { icon: any, title: string, description: string }) {
+function FeatureCard({ icon: Icon, title, description }: { icon: LucideIcon, title: string, description: string }) {
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
       <Icon className="w-8 h-8 text-indigo-600 mb-4" />

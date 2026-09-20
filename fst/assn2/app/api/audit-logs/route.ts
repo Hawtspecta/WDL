@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth/config';
 import { canViewAuditLogs } from '@/lib/authorization';
 import { prisma } from '@/lib/prisma';
-import { UserRole } from '@prisma/client';
 
 export async function GET(request: NextRequest) {
   try {
@@ -31,7 +30,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Check authorization - only admins can view audit logs
-    if (!canViewAuditLogs({ id: user.id, email: user.email, name: user.name, role: user.role.name as UserRole })) {
+    if (!canViewAuditLogs({ id: user.id, email: user.email, name: user.name, role: user.role?.name ?? 'GUEST' })) {
       return NextResponse.json(
         { data: null, errors: ['Forbidden: Insufficient permissions'] },
         { status: 403 }
@@ -47,7 +46,7 @@ export async function GET(request: NextRequest) {
     const offset = parseInt(searchParams.get('offset') || '0');
 
     // Build where clause
-    const where: any = {};
+    const where: Record<string, unknown> = {};
     if (action) where.action = action;
     if (entityType) where.entityType = entityType;
     if (userId) where.userId = userId;

@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth/config';
-import { requireSession, canCreateTransaction, canAccessResource } from '@/lib/authorization';
+import { canCreateTransaction } from '@/lib/authorization';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
-import { AuditAction, UserRole } from '@prisma/client';
 
 const createTransactionSchema = z.object({
   amount: z.number().positive(),
   description: z.string().min(1).max(500),
-  metadata: z.record(z.any()).optional(),
+  metadata: z.record(z.string(), z.unknown()).optional(),
 });
 
 export async function GET(request: NextRequest) {
@@ -38,7 +37,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Build query based on role
-    const where = user.role.name === UserRole.ADMIN 
+    const where = user.role?.name === 'ADMIN' 
       ? {} 
       : { userId: user.id };
 
@@ -97,7 +96,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check authorization
-    if (!canCreateTransaction({ id: user.id, email: user.email, name: user.name, role: user.role.name as UserRole })) {
+    if (!canCreateTransaction({ id: user.id, email: user.email, name: user.name, role: user.role?.name ?? 'GUEST' })) {
       return NextResponse.json(
         { data: null, errors: ['Forbidden: Insufficient permissions'] },
         { status: 403 }
@@ -116,7 +115,7 @@ export async function POST(request: NextRequest) {
           amount: validatedData.amount,
           description: validatedData.description,
           status: 'PENDING',
-          metadata: validatedData.metadata,
+          metadata: validatedData.metadata ? JSON.stringify(validatedData.metadata) : null,
         },
       });
 
@@ -124,13 +123,13 @@ export async function POST(request: NextRequest) {
       await tx.auditLog.create({
         data: {
           userId: user.id,
-          action: AuditAction.CREATE_TRANSACTION,
+          action: 'CREATE_TRANSACTION',
           entityType: 'Transaction',
           entityId: newTransaction.id,
-          metadata: {
+          metadata: JSON.stringify({
             amount: validatedData.amount,
             description: validatedData.description,
-          },
+          }),
           ipAddress: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown',
           userAgent: request.headers.get('user-agent') || 'unknown',
         },
@@ -147,7 +146,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { data: null, errors: error.errors.map(e => e.message) },
+        { data: null, errors: error.issues.map((e: z.ZodIssue) => e.message) },
         { status: 400 }
       );
     }

@@ -1,157 +1,211 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { getSession } from '@/lib/authorization';
+import { useState, useEffect, useCallback } from 'react';
+import { authClient } from '@/lib/auth/client';
 import { useRouter } from 'next/navigation';
 import Navigation from '@/components/Navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Search, Filter } from 'lucide-react';
+import { Plus, Search, Filter, Loader2 } from 'lucide-react';
 import { createTransaction } from '@/app/actions/transactions';
+
+interface Transaction {
+  id: string;
+  description: string;
+  amount: number;
+  status: string;
+  createdAt: string;
+  user: { name: string; email: string };
+}
+
+interface SessionUser {
+  id: string;
+  name: string;
+  email: string;
+  role?: string;
+}
 
 export default function TransactionsPage() {
   const router = useRouter();
-  const [session, setSession] = useState<any>(null);
-  const [transactions, setTransactions] = useState<any[]>([]);
+  const [sessionUser, setSessionUser] = useState<SessionUser | null>(null);
+  const [userRole, setUserRole] = useState<string>('GUEST');
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreateForm, setShowCreateForm] = useState(false);
-  const [formData, setFormData] = useState({
-    amount: '',
-    description: '',
-  });
+  const [formData, setFormData] = useState({ amount: '', description: '' });
   const [formError, setFormError] = useState('');
   const [formSuccess, setFormSuccess] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
 
-  useEffect(() => {
-    loadSessionAndData();
-  }, []);
-
-  const loadSessionAndData = async () => {
+  const loadData = useCallback(async () => {
     try {
-      const currentSession = await getSession();
-      if (!currentSession) {
+      const session = await authClient.getSession();
+      if (!session?.data?.user) {
         router.push('/login');
         return;
       }
-      setSession(currentSession);
-      await loadTransactions(currentSession);
-    } catch (error) {
-      console.error('Error loading session:', error);
-    }
-  };
+      setSessionUser(session.data.user as SessionUser);
 
-  const loadTransactions = async (currentSession: any) => {
-    try {
       const response = await fetch('/api/transactions');
+      if (response.status === 401) {
+        router.push('/login');
+        return;
+      }
       const data = await response.json();
       if (data.data) {
         setTransactions(data.data);
       }
-    } catch (error) {
-      console.error('Error loading transactions:', error);
+
+      const profileResp = await fetch('/api/profile');
+      if (profileResp.ok) {
+        const profile = await profileResp.json();
+        setUserRole(profile.role ?? profile.data?.role ?? 'GUEST');
+      }
+    } catch (err) {
+      console.error('Error loading data:', err);
     } finally {
       setLoading(false);
     }
-  };
+  }, [router]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadData();
+  }, [loadData]);
 
   const handleCreateTransaction = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError('');
     setFormSuccess('');
+    setSubmitting(true);
 
-    const formDataObj = new FormData();
-    formDataObj.append('amount', formData.amount);
-    formDataObj.append('description', formData.description);
+    const fd = new FormData();
+    fd.append('amount', formData.amount);
+    fd.append('description', formData.description);
 
-    const result = await createTransaction(formDataObj);
+    const result = await createTransaction(fd);
 
     if (result.success) {
       setFormSuccess('Transaction created successfully!');
       setFormData({ amount: '', description: '' });
       setShowCreateForm(false);
-      await loadTransactions(session);
+      await loadData();
     } else {
       setFormError(result.errors?.join(', ') || 'Failed to create transaction');
     }
+    setSubmitting(false);
+  };
+
+  const filteredTransactions = transactions.filter((t) => {
+    const matchesSearch = !searchQuery ||
+      t.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      t.user.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesStatus = !statusFilter || t.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
+
+  const statusColors: Record<string, string> = {
+    COMPLETED: 'bg-emerald-500/20 text-emerald-300',
+    PENDING: 'bg-amber-500/20 text-amber-300',
+    FAILED: 'bg-red-500/20 text-red-300',
+    CANCELLED: 'bg-slate-500/20 text-slate-300',
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-gray-600">Loading...</div>
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-indigo-400 animate-spin" />
       </div>
     );
   }
 
-  if (!session) {
-    return null;
-  }
+  if (!sessionUser) return null;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navigation userRole={session.role} />
-      
+    <div className="min-h-screen bg-slate-950">
+      <Navigation userRole={userRole} userName={sessionUser.name} />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex justify-between items-center mb-8">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Transactions</h1>
-            <p className="mt-2 text-gray-600">Manage your transactions</p>
+            <h1 className="text-3xl font-bold text-white">Transactions</h1>
+            <p className="mt-1 text-slate-400">Manage and track financial transactions</p>
           </div>
-          {session.role !== 'GUEST' && (
-            <Button onClick={() => setShowCreateForm(!showCreateForm)}>
-              <Plus className="w-4 h-4 mr-2" />
+          {userRole !== 'GUEST' && (
+            <Button
+              id="create-transaction-btn"
+              onClick={() => setShowCreateForm(!showCreateForm)}
+              className="bg-indigo-600 hover:bg-indigo-500 text-white flex items-center gap-2"
+            >
+              <Plus className="w-4 h-4" />
               New Transaction
             </Button>
           )}
         </div>
 
+        {/* Create Form */}
         {showCreateForm && (
-          <Card className="mb-6">
+          <Card className="mb-6 bg-slate-800/50 border-slate-700">
             <CardHeader>
-              <CardTitle>Create New Transaction</CardTitle>
+              <CardTitle className="text-white">Create New Transaction</CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleCreateTransaction} className="space-y-4">
                 {formError && (
-                  <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+                  <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
                     {formError}
                   </div>
                 )}
                 {formSuccess && (
-                  <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded">
+                  <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-emerald-400 text-sm">
                     {formSuccess}
                   </div>
                 )}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Amount
-                  </label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    value={formData.amount}
-                    onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                  />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-1.5">Amount ($)</label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0.01"
+                      required
+                      id="tx-amount"
+                      className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      placeholder="100.00"
+                      value={formData.amount}
+                      onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-1.5">Description</label>
+                    <input
+                      type="text"
+                      required
+                      id="tx-description"
+                      className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      placeholder="Payment for services"
+                      value={formData.description}
+                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Description
-                  </label>
-                  <textarea
-                    required
-                    rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  />
-                </div>
-                <div className="flex space-x-3">
-                  <Button type="submit">Create Transaction</Button>
+                <div className="flex gap-3">
+                  <Button
+                    type="submit"
+                    id="submit-transaction"
+                    disabled={submitting}
+                    className="bg-indigo-600 hover:bg-indigo-500 text-white"
+                  >
+                    {submitting ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+                    Create Transaction
+                  </Button>
                   <Button
                     type="button"
                     variant="outline"
+                    className="border-slate-600 text-slate-300 hover:bg-slate-700"
                     onClick={() => setShowCreateForm(false)}
                   >
                     Cancel
@@ -162,59 +216,72 @@ export default function TransactionsPage() {
           </Card>
         )}
 
-        <Card>
+        {/* Filters */}
+        <div className="flex flex-col sm:flex-row gap-3 mb-6">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+            <input
+              type="text"
+              placeholder="Search by description or user..."
+              className="w-full pl-10 pr-4 py-2.5 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          <select
+            className="px-4 py-2.5 bg-slate-800/50 border border-slate-700 rounded-xl text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+          >
+            <option value="">All Statuses</option>
+            <option value="PENDING">Pending</option>
+            <option value="COMPLETED">Completed</option>
+            <option value="FAILED">Failed</option>
+            <option value="CANCELLED">Cancelled</option>
+          </select>
+        </div>
+
+        {/* Table */}
+        <Card className="bg-slate-800/50 border-slate-700">
           <CardHeader>
-            <div className="flex justify-between items-center">
-              <CardTitle>All Transactions</CardTitle>
-              <div className="flex space-x-2">
-                <Button variant="outline" size="sm">
-                  <Search className="w-4 h-4 mr-2" />
-                  Search
-                </Button>
-                <Button variant="outline" size="sm">
-                  <Filter className="w-4 h-4 mr-2" />
-                  Filter
-                </Button>
-              </div>
-            </div>
+            <CardTitle className="text-white flex items-center justify-between">
+              <span>All Transactions</span>
+              <span className="text-sm font-normal text-slate-400">{filteredTransactions.length} records</span>
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            {transactions.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
-                No transactions found
+            {filteredTransactions.length === 0 ? (
+              <div className="text-center py-12 text-slate-500">
+                <Filter className="w-12 h-12 mx-auto mb-3 opacity-30" />
+                <p>No transactions found</p>
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full">
+                <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b">
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">ID</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">Description</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">Amount</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">Status</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">User</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">Created</th>
+                    <tr className="border-b border-slate-700">
+                      <th className="text-left py-3 px-4 font-medium text-slate-400">ID</th>
+                      <th className="text-left py-3 px-4 font-medium text-slate-400">Description</th>
+                      <th className="text-left py-3 px-4 font-medium text-slate-400">Amount</th>
+                      <th className="text-left py-3 px-4 font-medium text-slate-400">Status</th>
+                      <th className="text-left py-3 px-4 font-medium text-slate-400">User</th>
+                      <th className="text-left py-3 px-4 font-medium text-slate-400">Created</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {transactions.map((transaction) => (
-                      <tr key={transaction.id} className="border-b hover:bg-gray-50">
-                        <td className="py-3 px-4 text-sm">{transaction.id.slice(0, 8)}...</td>
-                        <td className="py-3 px-4 text-sm">{transaction.description}</td>
-                        <td className="py-3 px-4 text-sm font-medium">${transaction.amount.toFixed(2)}</td>
+                    {filteredTransactions.map((tx) => (
+                      <tr key={tx.id} className="border-b border-slate-700/50 hover:bg-slate-700/20 transition-colors">
+                        <td className="py-3 px-4 font-mono text-slate-500">{tx.id.slice(0, 8)}…</td>
+                        <td className="py-3 px-4 text-slate-300 max-w-xs truncate">{tx.description}</td>
+                        <td className="py-3 px-4 text-white font-semibold">${tx.amount.toFixed(2)}</td>
                         <td className="py-3 px-4">
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                            transaction.status === 'COMPLETED' ? 'bg-green-100 text-green-800' :
-                            transaction.status === 'PENDING' ? 'bg-yellow-100 text-yellow-800' :
-                            transaction.status === 'FAILED' ? 'bg-red-100 text-red-800' :
-                            'bg-gray-100 text-gray-800'
-                          }`}>
-                            {transaction.status}
+                          <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${statusColors[tx.status] || 'bg-slate-500/20 text-slate-300'}`}>
+                            {tx.status}
                           </span>
                         </td>
-                        <td className="py-3 px-4 text-sm">{transaction.user.name}</td>
-                        <td className="py-3 px-4 text-sm">
-                          {new Date(transaction.createdAt).toLocaleDateString()}
+                        <td className="py-3 px-4 text-slate-400">{tx.user?.name ?? '—'}</td>
+                        <td className="py-3 px-4 text-slate-500">
+                          {new Date(tx.createdAt).toLocaleDateString()}
                         </td>
                       </tr>
                     ))}
