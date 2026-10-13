@@ -40,19 +40,37 @@ export default function RootLayout({
                 </svg>
                 <span className="ml-3 text-xl">Scuba</span>
               </Link>
-              <nav className="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
-                <Link href="/contact" className="mr-5 hover:text-gray-900">Contact</Link>
-                <Link href="/timer" className="mr-5 hover:text-gray-900">Timer</Link>
+              <nav className="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-300 flex flex-wrap items-center text-sm justify-center gap-y-1">
+                <Link href="/catalog" className="mr-4 hover:text-gray-900 font-medium text-indigo-600">Catalog</Link>
+                <Link href="/dashboard" className="mr-4 hover:text-cyan-700 font-semibold text-cyan-600 flex items-center gap-1">
+                  <span>Dashboard</span>
+                  <span className="text-[10px] bg-cyan-100 text-cyan-800 px-1.5 py-0.2 rounded font-mono">User</span>
+                </Link>
+                <Link href="/admin" className="mr-4 hover:text-rose-700 font-semibold text-rose-600 flex items-center gap-1">
+                  <span>Admin</span>
+                  <span className="text-[10px] bg-rose-100 text-rose-800 px-1.5 py-0.2 rounded font-mono">Admin</span>
+                </Link>
+                <Link href="/auth" className="mr-4 hover:text-gray-900 font-medium text-violet-600">Auth</Link>
+                <Link href="/contact" className="mr-4 hover:text-gray-900">Contact</Link>
+                <Link href="/timer" className="mr-4 hover:text-gray-900">Timer</Link>
               </nav>
-              <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Button
-                <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 ml-1" viewBox="0 0 24 24">
-                  <path d="M5 12h14M12 5l7 7-7 7"></path>
-                </svg>
-              </button>
+              <div className="flex items-center gap-3 mt-4 md:mt-0">
+                <Link
+                  href="/login"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200 transition-colors"
+                >
+                  <span>Role Switcher</span>
+                </Link>
+              </div>
             </div>
           </header>
           {children}
-          <h1>Footer</h1>
+          <footer className="mt-auto border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500">
+            <div className="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+              <span>Scuba Diving Platform • Role-Based Access Control (RBAC) System</span>
+              <span className="font-mono text-[11px] text-slate-400">Edge JWT (jose) • HTTP-only Cookies • Proxy Guard</span>
+            </div>
+          </footer>
         </TimerProvider>
       </body>
     </html>

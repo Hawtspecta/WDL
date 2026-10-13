@@ -34,3 +34,26 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Docker Deployment (Production)
+
+This project includes multi-stage containerization with Next.js `standalone` mode, non-root security, health checks, and Docker Compose support.
+
+### Run with Docker Compose
+```bash
+docker compose up --build -d
+```
+
+### Check Status & Health
+```bash
+docker compose ps
+curl http://localhost:3000/api/health
+```
+
+### View Logs
+```bash
+docker compose logs -f
+```
+
+For full details on standalone builds, multi-stage caching, and CLI instructions, see [DOCKER.md](file:///DOCKER.md).
+
